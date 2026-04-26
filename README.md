@@ -120,7 +120,7 @@ Cyber Kisan is an innovative all-in-one application...
 This blueprint illustrates the basic processing and workflow of the Cyber Kisan application.
 
 <p align="center">
-  <img src="Blue Print.jpeg" alt="Cyber Kisan Workflow" width="45%">
+  <img src="Blue Print.jpeg" alt="Cyber Kisan Workflow" width="10%">
 </p>
 
 ---
