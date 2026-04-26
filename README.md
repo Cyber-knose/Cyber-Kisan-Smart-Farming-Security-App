@@ -2,14 +2,15 @@
   <img src="banner.png.png" alt="Cyber Kisan Banner" width="100%">
 </p>
 
-# Cyber-Kisan-Smart-Farming-Security-App
-Cyber Kisan – Smart Farming  Security App  Cyber Kisan is an innovative, multi-functional application designed to empower farmers by integrating modern agricultural tools with essential digital utilities. 
+<h1 align="center">🌾🚀 Cyber Kisan – Smart Farming & Security App</h1>
+<p align="center"><b>Where Farming Meets Cyber Power 💻🌱</b></p>
 
-# 🌾🚀 Cyber Kisan – Smart Farming & Security App
+---
 
-**"Where Farming Meets Cyber Power" 💻🌱**
+## 📖 About the Project
+Cyber Kisan is an innovative all-in-one application designed to empower farmers by combining **modern agriculture tools 🌾** with **digital security features 🔐**.  
 
-Cyber Kisan is an innovative all-in-one application designed to empower farmers by combining **modern agriculture tools 🌾** with **digital security features 🔐**. This app helps farmers improve productivity, make smarter decisions, and stay सुरक्षित in the digital world.
+This platform helps farmers improve productivity, make smarter decisions, and stay **safe in the digital world 🌐**.
 
 ---
 
@@ -25,15 +26,37 @@ Cyber Kisan is an innovative all-in-one application designed to empower farmers 
 
 ### 🌦️ Weather Forecast
 - Real-time weather updates ☁️  
-- Plan farming activities efficiently  
+- Better farming decisions  
 
 ### 🔐 Password Generator
 - Generate strong & secure passwords 🛡️  
-- Protect your digital identity  
+- Protect digital identity  
 
 ### 📂 DigiLocker Access
 - Store & access important documents 📑  
 - Safe, secure & paperless  
+
+---
+
+## 🔐🌐 Cyber Awareness for Farmers
+
+Cyber Kisan is not just a farming app 🌾 — it also focuses on making farmers **digitally aware and secure 🛡️**.
+
+With the increasing use of smartphones, farmers can become targets of **cyber frauds, phishing attacks, fake apps, and scams 🚨**.  
+This app spreads awareness and guides users on how to stay safe.
+
+### 🧠 What This Feature Provides:
+- Awareness about common cyber crimes ⚠️  
+- Safe internet practices 📱  
+- Protection of personal & financial data 💳  
+- Easy access to trusted cyber resources 🌐  
+
+### 🔗 Useful Cyber Safety Resources:
+- 🇮🇳 https://cybercrime.gov.in  
+- 🔍 https://haveibeenpwned.com  
+- 🔐 https://www.digilocker.gov.in  
+
+These platforms help farmers take **quick action 🚀** and stay informed.
 
 ---
 
@@ -45,7 +68,7 @@ To bridge the gap between **agriculture 🌾** and **technology 💻**, making f
 ## 🛠️ Tech Stack
 - 📱 Frontend: (Flutter / Android / React)  
 - ⚙️ Backend: (Node.js / Firebase)  
-- 🌐 APIs: Weather API, Auth APIs  
+- 🌐 APIs: Weather API, Authentication APIs  
 - 🗄️ Database: (MongoDB / MySQL / Firebase)  
 
 ---
@@ -53,8 +76,8 @@ To bridge the gap between **agriculture 🌾** and **technology 💻**, making f
 ## 🚀 Future Enhancements
 - 🤖 AI-based crop recommendations  
 - 💳 Online payment integration  
-- 🌍 Multi-language support (Hindi + more)  
-- 📢 Government schemes & alerts  
+- 🌍 Multi-language support  
+- 📢 Government scheme updates  
 
 ---
 
