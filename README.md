@@ -7,6 +7,14 @@
 
 ---
 
+## 🌐🚀 Live Demo
+
+[![Live Demo](https://img.shields.io/badge/Launch%20App-Cyber%20Kisan-00ff88?style=for-the-badge&logo=google-chrome&logoColor=white)](https://cyberkisan.netlify.app)
+
+🔗 https://cyberkisan.netlify.app  
+
+---
+
 ## 📖 About the Project
 Cyber Kisan is an innovative all-in-one application designed to empower farmers by combining **modern agriculture tools 🌾** with **digital security features 🔐**.  
 
@@ -55,8 +63,6 @@ This app spreads awareness and guides users on how to stay safe.
 - 🇮🇳 https://cybercrime.gov.in  
 - 🔍 https://haveibeenpwned.com  
 - 🔐 https://www.digilocker.gov.in  
-
-These platforms help farmers take **quick action 🚀** and stay informed.
 
 ---
 
