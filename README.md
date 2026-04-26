@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="banner.png.png" alt="Cyber Kisan Banner" width="100%">
+</p>
+
 # Cyber-Kisan-Smart-Farming-Security-App
 Cyber Kisan – Smart Farming  Security App  Cyber Kisan is an innovative, multi-functional application designed to empower farmers by integrating modern agricultural tools with essential digital utilities. 
 
