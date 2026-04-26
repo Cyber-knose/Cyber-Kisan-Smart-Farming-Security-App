@@ -81,10 +81,20 @@ To bridge the gap between **agriculture 🌾** and **technology 💻**, making f
 ---
 
 ## 🛠️ Tech Stack
-- 📱 Frontend: (Flutter / Android / React)  
-- ⚙️ Backend: (Node.js / Firebase)  
+- 💻 Languages: HTML, CSS, JavaScript  
+- ⚙️ Frameworks/Libraries: (React / Bootstrap / etc.)  
+- 🗄️ Database: (Firebase / MongoDB / etc.)  
 - 🌐 APIs: Weather API, Authentication APIs  
-- 🗄️ Database: (MongoDB / MySQL / Firebase)  
+- 🚀 Deployment: Netlify
+
+   ## 🛠️ Tech Stack
+
+<p align="center">
+  <img src="https://img.shields.io/badge/HTML-5-orange?style=for-the-badge&logo=html5" />
+  <img src="https://img.shields.io/badge/CSS-3-blue?style=for-the-badge&logo=css3" />
+  <img src="https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge&logo=javascript" />
+  <img src="https://img.shields.io/badge/Netlify-Deployment-00C7B7?style=for-the-badge&logo=netlify" />
+</p>
 
 ---
 
