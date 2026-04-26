@@ -1,4 +1,3 @@
-<img width="1024" height="1536" alt="Blue Print" src="https://github.com/user-attachments/assets/2b3b2552-0cd7-4134-918d-3f8458a2c679" />
 <p align="center">
   <img src="banner.png.png" alt="Cyber Kisan Banner" width="100%">
 </p>
@@ -118,6 +117,10 @@ Cyber Kisan is an innovative all-in-one application...
 ## 🧭 App Workflow / Architecture
 
 This blueprint illustrates the basic processing and workflow of the Cyber Kisan application.
+
+<p align="center">
+  <img src="blueprint.png" alt="Cyber Kisan Workflow" width="100%">
+</p>
 
 
 ## ⚡ Features
