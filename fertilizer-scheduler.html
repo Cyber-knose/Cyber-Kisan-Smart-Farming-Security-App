@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fertilizer Scheduler - Cyber Kissan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="cyber-kissan-common.css">
+    <style>
+        .fertilizer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .scheduler-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .crop-selection {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .crop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .crop-option {
+            background: #F5F5F5;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .crop-option:hover {
+            background: #E8F5E9;
+            border-color: #4CAF50;
+            transform: translateY(-3px);
+        }
+
+        .crop-option.selected {
+            background: #4CAF50;
+            color: white;
+            border-color: #45a049;
+        }
+
+        .crop-option i {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+
+        .crop-option.selected i {
+            color: white;
+        }
+
+        .crop-option h4 {
+            margin-bottom: 5px;
+            color: #2E7D32;
+        }
+
+        .crop-option.selected h4 {
+            color: white;
+        }
+
+        .soil-analysis {
+            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #FFB74D;
+        }
+
+        .soil-analysis h3 {
+            color: #E65100;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .soil-parameters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .parameter-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .parameter-card label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .parameter-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .parameter-unit {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .fertilizer-schedule {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .fertilizer-schedule.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .schedule-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .schedule-header h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .fertilizer-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 60px;
+            bottom: -30px;
+            width: 2px;
+            background: #4CAF50;
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-marker {
+            background: #4CAF50;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-right: 20px;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: #F5F5F5;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .fertilizer-name {
+            color: #2E7D32;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .fertilizer-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+        }
+
+        .detail-item i {
+            color: #2196F3;
+        }
+
+        .application-method {
+            background: #E3F2FD;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .application-method h5 {
+            color: #1565C0;
+            margin-bottom: 8px;
+        }
+
+        .weather-consideration {
+            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #FFB74D;
+        }
+
+        .weather-consideration h5 {
+            color: #E65100;
+            margin-bottom: 8px;
+        }
+
+        .cost-estimation {
+            background: linear-gradient(135deg, #E8F5E9, #F1F8E9);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .cost-estimation h5 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+
+        .cost-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .cost-total {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #2E7D32;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .action-buttons {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .schedule-btn {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .schedule-btn:hover {
+            background: linear-gradient(45deg, #45a049, #5cb85c);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, #2196F3, #42A5F5);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(45deg, #1976D2, #1E88E5);
+            transform: translateY(-2px);
+        }
+
+        .calendar-view {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header h4 {
+            color: #4CAF50;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day:hover {
+            background: #f0f0f0;
+        }
+
+        .calendar-day.has-event {
+            background: #E3F2FD;
+            border-color: #2196F3;
+            font-weight: bold;
+        }
+
+        .calendar-day.today {
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .legend-color.nitrogen {
+            background: #FF5722;
+        }
+
+        .legend-color.phosphorus {
+            background: #2196F3;
+        }
+
+        .legend-color.potassium {
+            background: #4CAF50;
+        }
+
+        .legend-color.organic {
+            background: #8BC34A;
+        }
+
+        .soil-test-reminder {
+            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #FFB74D;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .soil-test-reminder i {
+            font-size: 2em;
+            color: #E65100;
+        }
+
+        .soil-test-reminder h5 {
+            color: #E65100;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="tips.html">Safety Tips</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="quiz.html">Cyber Quiz</a></li>
+                <li><a href="password-generator.html">Password Generator</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="weather.html">Weather Forecast</a></li>
+                <li><a href="crop-market.html">Crop Market</a></li>
+                <li><a href="digilocker.html">Digi Locker</a></li>
+                <li><a href="fertilizer-scheduler.html" class="active">Fertilizer Scheduler</a></li>
+                <li><a href="crop-diseases.html">Crop Diseases</a></li>
+                <li><a href="data-usage.html">Data Usage</a></li>
+            </ul>
+        </nav>
+
+        <header class="header">
+            <i class="fas fa-tractor logo"></i>
+            <h1>Fertilizer Scheduler</h1>
+            <p>Smart fertilizer planning for better crop yield</p>
+        </header>
+
+        <div class="fertilizer-container">
+            <!-- Crop Selection -->
+            <div class="crop-selection">
+                <h3><i class="fas fa-seedling"></i> Select Your Crop</h3>
+                <div class="crop-grid">
+                    <div class="crop-option" onclick="selectCrop('wheat')" data-crop="wheat">
+                        <i class="fas fa-wheat-awn"></i>
+                        <h4>Wheat</h4>
+                        <p>Rabi Crop</p>
+                    </div>
+                    <div class="crop-option" onclick="selectCrop('rice')" data-crop="rice">
+                        <i class="fas fa-seedling"></i>
+                        <h4>Rice</h4>
+                        <p>Kharif Crop</p>
+                    </div>
+                    <div class="crop-option" onclick="selectCrop('cotton')" data-crop="cotton">
+                        <i class="fas fa-cotton-boll"></i>
+                        <h4>Cotton</h4>
+                        <p>Cash Crop</p>
+                    </div>
+                    <div class="crop-option" onclick="selectCrop('sugarcane')" data-crop="sugarcane">
+                        <i class="fas fa-candy-cane"></i>
+                        <h4>Sugarcane</h4>
+                        <p>Perennial Crop</p>
+                    </div>
+                    <div class="crop-option" onclick="selectCrop('pulses')" data-crop="pulses">
+                        <i class="fas fa-seedling"></i>
+                        <h4>Pulses</h4>
+                        <p>Legume Crop</p>
+                    </div>
+                    <div class="crop-option" onclick="selectCrop('vegetables')" data-crop="vegetables">
+                        <i class="fas fa-carrot"></i>
+                        <h4>Vegetables</h4>
+                        <p>Horticulture</p>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label><i class="fas fa-ruler"></i> Field Size (in acres)</label>
+                    <input type="number" class="form-control" id="field-size" placeholder="e.g., 5" min="0.1" max="1000"
+                        step="0.1">
+                </div>
+            </div>
+
+            <!-- Soil Analysis -->
+            <div class="soil-analysis">
+                <h3><i class="fas fa-microscope"></i> Soil Analysis (Optional)</h3>
+                <p>Enter your soil test results for more accurate fertilizer recommendations</p>
+
+                <div class="soil-parameters">
+                    <div class="parameter-card">
+                        <label><i class="fas fa-flask"></i> Nitrogen (N)</label>
+                        <input type="number" class="parameter-input" id="nitrogen" placeholder="e.g., 250" min="0"
+                            max="1000">
+                        <div class="parameter-unit">kg/hectare</div>
+                    </div>
+                    <div class="parameter-card">
+                        <label><i class="fas fa-flask"></i> Phosphorus (P)</label>
+                        <input type="number" class="parameter-input" id="phosphorus" placeholder="e.g., 15" min="0"
+                            max="100">
+                        <div class="parameter-unit">kg/hectare</div>
+                    </div>
+                    <div class="parameter-card">
+                        <label><i class="fas fa-flask"></i> Potassium (K)</label>
+                        <input type="number" class="parameter-input" id="potassium" placeholder="e.g., 300" min="0"
+                            max="1000">
+                        <div class="parameter-unit">kg/hectare</div>
+                    </div>
+                    <div class="parameter-card">
+                        <label><i class="fas fa-thermometer-half"></i> pH Level</label>
+                        <input type="number" class="parameter-input" id="ph-level" placeholder="e.g., 7.0" min="0"
+                            max="14" step="0.1">
+                        <div class="parameter-unit">pH scale</div>
+                    </div>
+                    <div class="parameter-card">
+                        <label><i class="fas fa-percentage"></i> Organic Matter</label>
+                        <input type="number" class="parameter-input" id="organic-matter" placeholder="e.g., 2.5" min="0"
+                            max="10" step="0.1">
+                        <div class="parameter-unit">percentage</div>
+                    </div>
+                    <div class="parameter-card">
+                        <label><i class="fas fa-tint"></i> Soil Type</label>
+                        <select class="parameter-input" id="soil-type">
+                            <option value="">Select Soil Type</option>
+                            <option value="sandy">Sandy Soil</option>
+                            <option value="clay">Clay Soil</option>
+                            <option value="loamy">Loamy Soil</option>
+                            <option value="black">Black Cotton Soil</option>
+                            <option value="red">Red Soil</option>
+                            <option value="alluvial">Alluvial Soil</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-secondary" onclick="showSoilTestReminder()">
+                    <i class="fas fa-info-circle"></i> Soil Testing Guidelines
+                </button>
+            </div>
+
+            <!-- Fertilizer Schedule -->
+            <div id="fertilizer-schedule" class="fertilizer-schedule">
+                <div class="schedule-header">
+                    <h3><i class="fas fa-calendar-alt"></i> Personalized Fertilizer Schedule</h3>
+                    <p id="schedule-summary">Based on your crop and soil analysis</p>
+                </div>
+
+                <div class="fertilizer-timeline" id="fertilizer-timeline">
+                    <!-- Timeline items will be generated here -->
+                </div>
+
+                <div class="cost-estimation">
+                    <h5><i class="fas fa-calculator"></i> Estimated Fertilizer Cost</h5>
+                    <div class="cost-breakdown" id="cost-breakdown">
+                        <!-- Cost breakdown will be generated here -->
+                    </div>
+                    <div class="cost-total" id="cost-total">
+                        Total Estimated Cost: ₹0
+                    </div>
+                </div>
+
+                <div class="calendar-view">
+                    <div class="calendar-header">
+                        <h4>Fertilizer Application Calendar</h4>
+                        <button class="btn btn-sm btn-secondary" onclick="previousMonth()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span id="calendar-month">January 2025</span>
+                        <button class="btn btn-sm btn-secondary" onclick="nextMonth()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid">
+                        <!-- Calendar will be generated here -->
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color nitrogen"></div>
+                        <span>Nitrogen (N)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color phosphorus"></div>
+                        <span>Phosphorus (P)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color potassium"></div>
+                        <span>Potassium (K)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color organic"></div>
+                        <span>Organic Fertilizer</span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="schedule-btn" onclick="generateSchedule()">
+                        <i class="fas fa-magic"></i> Generate Schedule
+                    </button>
+                    <button class="download-btn" onclick="downloadSchedule()">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <button class="download-btn" onclick="shareSchedule()">
+                        <i class="fas fa-share"></i> Share Schedule
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Cyber Kisan. Empowering Farmers Digitally.</p>
+        </footer>
+    </div>
+
+    <script src="chatbot.js"></script>
+    <script>
+        // Fertilizer Scheduler Functions
+        let selectedCrop = '';
+        let fieldSize = 0;
+        let soilData = {};
+
+        // Crop-specific fertilizer data
+        const cropData = {
+            'wheat': {
+                name: 'Wheat',
+                nitrogen: 120, // kg per hectare
+                phosphorus: 60,
+                potassium: 40,
+                schedule: [
+                    { days: 0, fertilizer: 'Basal Dose', description: 'Mix all fertilizers with soil' },
+                    { days: 25, fertilizer: 'First Top Dressing', description: 'Apply 1/3 nitrogen' },
+                    { days: 45, fertilizer: 'Second Top Dressing', description: 'Apply 1/3 nitrogen' },
+                    { days: 65, fertilizer: 'Final Top Dressing', description: 'Apply remaining nitrogen' }
+                ]
+            },
+            'rice': {
+                name: 'Rice',
+                nitrogen: 150,
+                phosphorus: 80,
+                potassium: 60,
+                schedule: [
+                    { days: 0, fertilizer: 'Basal Application', description: 'Apply phosphorus and potassium' },
+                    { days: 15, fertilizer: 'First Nitrogen Split', description: 'Apply 1/3 nitrogen' },
+                    { days: 30, fertilizer: 'Second Nitrogen Split', description: 'Apply 1/3 nitrogen' },
+                    { days: 45, fertilizer: 'Final Nitrogen Split', description: 'Apply remaining nitrogen' }
+                ]
+            },
+            'cotton': {
+                name: 'Cotton',
+                nitrogen: 200,
+                phosphorus: 100,
+                potassium: 80,
+                schedule: [
+                    { days: 0, fertilizer: 'Basal Dose', description: 'Apply all fertilizers' },
+                    { days: 30, fertilizer: 'First Top Dressing', description: 'Apply 1/4 nitrogen' },
+                    { days: 60, fertilizer: 'Second Top Dressing', description: 'Apply 1/4 nitrogen' },
+                    { days: 90, fertilizer: 'Third Top Dressing', description: 'Apply 1/4 nitrogen' },
+                    { days: 120, fertilizer: 'Final Top Dressing', description: 'Apply remaining nitrogen' }
+                ]
+            },
+            'sugarcane': {
+                name: 'Sugarcane',
+                nitrogen: 250,
+                phosphorus: 120,
+                potassium: 100,
+                schedule: [
+                    { days: 0, fertilizer: 'Basal Application', description: 'Apply phosphorus and potassium' },
+                    { days: 30, fertilizer: 'First Nitrogen Split', description: 'Apply 1/5 nitrogen' },
+                    { days: 60, fertilizer: 'Second Nitrogen Split', description: 'Apply 1/5 nitrogen' },
+                    { days: 90, fertilizer: 'Third Nitrogen Split', description: 'Apply 1/5 nitrogen' },
+                    { days: 120, fertilizer: 'Fourth Nitrogen Split', description: 'Apply 1/5 nitrogen' },
+                    { days: 150, fertilizer: 'Final Nitrogen Split', description: 'Apply remaining nitrogen' }
+                ]
+            },
+            'pulses': {
+                name: 'Pulses',
+                nitrogen: 40, // Less nitrogen needed due to nitrogen fixation
+                phosphorus: 80,
+                potassium: 60,
+                schedule: [
+                    { days: 0, fertilizer: 'Basal Dose', description: 'Apply phosphorus and potassium' },
+                    { days: 25, fertilizer: 'Nitrogen Top-up', description: 'Apply small nitrogen dose' },
+                    { days: 50, fertilizer: 'Final Application', description: 'Apply remaining fertilizers' }
+                ]
+            },
+            'vegetables': {
+                name: 'Vegetables',
+                nitrogen: 100,
+                phosphorus: 70,
+                potassium: 50,
+                schedule: [
+                    { days: 0, fertilizer: 'Basal Application', description: 'Apply all fertilizers' },
+                    { days: 20, fertilizer: 'First Top Dressing', description: 'Apply 1/3 nitrogen' },
+                    { days: 40, fertilizer: 'Second Top Dressing', description: 'Apply 1/3 nitrogen' },
+                    { days: 60, fertilizer: 'Final Top Dressing', description: 'Apply remaining nitrogen' }
+                ]
+            }
+        };
+
+        function selectCrop(cropType) {
+            // Remove previous selection
+            document.querySelectorAll('.crop-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Add selection to clicked crop
+            document.querySelector(`[data-crop="${cropType}"]`).classList.add('selected');
+
+            selectedCrop = cropType;
+            fieldSize = parseFloat(document.getElementById('field-size').value) || 1;
+
+            if (fieldSize > 0) {
+                showFertilizerSchedule();
+            } else {
+                alert('Please enter field size first');
+            }
+        }
+
+        function showFertilizerSchedule() {
+            if (!selectedCrop) {
+                alert('Please select a crop first');
+                return;
+            }
+
+            const scheduleDiv = document.getElementById('fertilizer-schedule');
+            scheduleDiv.classList.add('active');
+
+            generateSchedule();
+        }
+
+        function generateSchedule() {
+            const crop = cropData[selectedCrop];
+            const timeline = document.getElementById('fertilizer-timeline');
+            const costBreakdown = document.getElementById('cost-breakdown');
+            const costTotal = document.getElementById('cost-total');
+
+            // Clear previous content
+            timeline.innerHTML = '';
+            costBreakdown.innerHTML = '';
+
+            // Get soil data
+            const soilN = parseFloat(document.getElementById('nitrogen').value) || 0;
+            const soilP = parseFloat(document.getElementById('phosphorus').value) || 0;
+            const soilK = parseFloat(document.getElementById('potassium').value) || 0;
+            const soilType = document.getElementById('soil-type').value || 'loamy';
+            const organicMatter = parseFloat(document.getElementById('organic-matter').value) || 0;
+
+            // Adjust fertilizer based on soil analysis
+            let adjustedN = crop.nitrogen;
+            let adjustedP = crop.phosphorus;
+            let adjustedK = crop.potassium;
+
+            // Reduce nitrogen if soil has sufficient organic matter
+            if (organicMatter > 3) {
+                adjustedN = adjustedN * 0.8;
+            }
+
+            // Reduce phosphorus if soil test shows high levels
+            if (soilP > 25) {
+                adjustedP = adjustedP * 0.7;
+            }
+
+            // Reduce potassium if soil test shows high levels
+            if (soilK > 300) {
+                adjustedK = adjustedK * 0.8;
+            }
+
+            // Calculate for field size
+            const totalN = (adjustedN * fieldSize).toFixed(1);
+            const totalP = (adjustedP * fieldSize).toFixed(1);
+            const totalK = (adjustedK * fieldSize).toFixed(1);
+
+            // Generate timeline
+            crop.schedule.forEach((item, index) => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                timelineItem.innerHTML = `
+                    <div class="timeline-marker">${index + 1}</div>
+                    <div class="timeline-content">
+                        <div class="fertilizer-name">${item.fertilizer}</div>
+                        <div class="fertilizer-details">
+                            <div class="detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>Day ${item.days} after sowing</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-weight"></i>
+                                <span>${totalN}kg N, ${totalP}kg P, ${totalK}kg K</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-ruler"></i>
+                                <span>${fieldSize} acres</span>
+                            </div>
+                        </div>
+                        <div class="application-method">
+                            <h5><i class="fas fa-tools"></i> Application Method</h5>
+                            <p>${item.description}</p>
+                            <p><strong>Method:</strong> ${getApplicationMethod(item.fertilizer, soilType)}</p>
+                        </div>
+                        <div class="weather-consideration">
+                            <h5><i class="fas fa-cloud-sun"></i> Weather Considerations</h5>
+                            <p>${getWeatherAdvice(item.days)}</p>
+                        </div>
+                    </div>
+                `;
+                timeline.appendChild(timelineItem);
+            });
+
+            // Calculate costs
+            calculateCosts(totalN, totalP, totalK);
+
+            // Update summary
+            document.getElementById('schedule-summary').textContent =
+                `Personalized schedule for ${crop.name} on ${fieldSize} acres`;
+
+            // Generate calendar
+            generateCalendar();
+        }
+
+        function calculateCosts(nitrogen, phosphorus, potassium) {
+            const costBreakdown = document.getElementById('cost-breakdown');
+            const costTotal = document.getElementById('cost-total');
+
+            // Approximate prices per kg (these should be updated regularly)
+            const prices = {
+                urea: 6, // per kg nitrogen
+                dap: 24, // per kg phosphorus
+                mop: 17, // per kg potassium
+                organic: 5 // per kg organic matter
+            };
+
+            const ureaCost = (nitrogen * 2.17 * prices.urea).toFixed(0); // Urea is 46% nitrogen
+            const dapCost = (phosphorus * 4.58 * prices.dap).toFixed(0); // DAP is 46% phosphorus
+            const mopCost = (potassium * 1.67 * prices.mop).toFixed(0); // MOP is 60% potassium
+            const organicCost = (nitrogen * 0.2 * prices.organic).toFixed(0); // Organic fertilizer
+
+            const totalCost = parseInt(ureaCost) + parseInt(dapCost) + parseInt(mopCost) + parseInt(organicCost);
+
+            costBreakdown.innerHTML = `
+                <div class="cost-item">
+                    <span>Urea (Nitrogen):</span>
+                    <span>₹${ureaCost}</span>
+                </div>
+                <div class="cost-item">
+                    <span>DAP (Phosphorus):</span>
+                    <span>₹${dapCost}</span>
+                </div>
+                <div class="cost-item">
+                    <span>MOP (Potassium):</span>
+                    <span>₹${mopCost}</span>
+                </div>
+                <div class="cost-item">
+                    <span>Organic Fertilizer:</span>
+                    <span>₹${organicCost}</span>
+                </div>
+            `;
+
+            costTotal.innerHTML = `Total Estimated Cost: ₹${totalCost.toLocaleString()}`;
+        }
+
+        function getApplicationMethod(fertilizer, soilType) {
+            const methods = {
+                'sandy': 'Broadcast evenly and incorporate lightly into soil. Apply in smaller splits due to leaching risk.',
+                'clay': 'Place in bands near seed rows. Reduce split applications due to better nutrient retention.',
+                'loamy': 'Standard broadcast application with light incorporation. Balanced split applications.',
+                'black': 'Broadcast and incorporate well. Monitor for nutrient lock-up due to high clay content.',
+                'red': 'Apply in bands near root zone. May need higher phosphorus due to iron content.',
+                'alluvial': 'Standard broadcast application. Good nutrient retention allows for fewer splits.'
+            };
+
+            return methods[soilType] || 'Standard broadcast application with light incorporation';
+        }
+
+        function getWeatherAdvice(day) {
+            if (day < 30) {
+                return 'Apply fertilizers when soil is moist but not waterlogged. Avoid application during heavy rains.';
+            } else if (day < 60) {
+                return 'Monitor weather forecast. Apply 24-48 hours before expected light rain for better nutrient uptake.';
+            } else {
+                return 'Consider weather patterns. Avoid application during extreme heat or before heavy rainfall.';
+            }
+        }
+
+        function showSoilTestReminder() {
+            alert(`🌱 Soil Testing Guidelines:\n\n1. Collect soil samples from 5-10 different spots in your field\n2. Take samples from 0-15cm depth for surface soil\n3. Mix samples thoroughly and remove debris\n4. Air dry the sample for 24-48 hours\n5. Send 500g sample to nearest soil testing lab\n\nBenefits of Soil Testing:\n• Accurate fertilizer recommendations\n• Cost savings on fertilizers\n• Improved crop yield\n• Better soil health management\n\nContact your nearest Krishi Vigyan Kendra (KVK) for soil testing services.`);
+        }
+
+        function generateSchedule() {
+            if (!selectedCrop) {
+                alert('Please select a crop first');
+                return;
+            }
+
+            const fieldSize = parseFloat(document.getElementById('field-size').value);
+            if (!fieldSize || fieldSize <= 0) {
+                alert('Please enter valid field size');
+                return;
+            }
+
+            generateSchedule();
+            alert('✅ Fertilizer schedule generated successfully!\n\nCheck the timeline and calendar for detailed application schedule.');
+        }
+
+        function downloadSchedule() {
+            const crop = cropData[selectedCrop];
+            const scheduleContent = generateSchedulePDF();
+
+            // Create and download PDF (simplified version)
+            const blob = new Blob([scheduleContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${crop.name}-fertilizer-schedule.txt`;
+            a.click();
+
+            alert('✅ Schedule downloaded successfully!');
+        }
+
+        function shareSchedule() {
+            const crop = cropData[selectedCrop];
+            const shareText = `Fertilizer Schedule for ${crop.name}\nField Size: ${fieldSize} acres\nTotal Cost: ₹[calculated cost]\n\nSchedule generated by Cyber Kissan Fertilizer Scheduler`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Fertilizer Schedule',
+                    text: shareText
+                });
+            } else {
+                // Fallback - copy to clipboard
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Schedule copied to clipboard!');
+                });
+            }
+        }
+
+        function generateSchedulePDF() {
+            const crop = cropData[selectedCrop];
+            let content = `FERTILIZER SCHEDULE FOR ${crop.name.toUpperCase()}\n`;
+            content += `=====================================\n\n`;
+            content += `Field Size: ${fieldSize} acres\n`;
+            content += `Generated on: ${new Date().toLocaleDateString()}\n\n`;
+            content += `RECOMMENDED FERTILIZER RATES:\n`;
+            content += `Nitrogen: ${crop.nitrogen} kg/hectare\n`;
+            content += `Phosphorus: ${crop.phosphorus} kg/hectare\n`;
+            content += `Potassium: ${crop.potassium} kg/hectare\n\n`;
+            content += `APPLICATION SCHEDULE:\n`;
+            crop.schedule.forEach((item, index) => {
+                content += `${index + 1}. Day ${item.days}: ${item.fertilizer}\n`;
+                content += `   ${item.description}\n\n`;
+            });
+            content += `TOTAL ESTIMATED COST: ₹[calculated cost]\n\n`;
+            content += `IMPORTANT NOTES:\n`;
+            content += `• Always follow soil test recommendations\n`;
+            content += `• Apply fertilizers based on weather conditions\n`;
+            content += `• Monitor crop response and adjust if needed\n`;
+            content += `• Use organic fertilizers along with chemical ones\n\n`;
+            content += `Generated by Cyber Kissan Fertilizer Scheduler`;
+
+            return content;
+        }
+
+        function generateCalendar() {
+            // Simple calendar generation (you can enhance this)
+            const calendarGrid = document.getElementById('calendar-grid');
+            const monthYear = document.getElementById('calendar-month');
+
+            // For demo, show current month
+            const now = new Date();
+            monthYear.textContent = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+            // Generate calendar days (simplified)
+            calendarGrid.innerHTML = '';
+            const daysInMonth = 31; // Simplified
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+
+                // Add fertilizer events (demo)
+                if (day % 7 === 0) {
+                    dayElement.classList.add('has-event');
+                    dayElement.title = 'Fertilizer application day';
+                }
+
+                if (day === now.getDate()) {
+                    dayElement.classList.add('today');
+                }
+
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        function previousMonth() {
+            // Calendar navigation logic
+            console.log('Previous month');
+        }
+
+        function nextMonth() {
+            // Calendar navigation logic
+            console.log('Next month');
+        }
+
+        // Initialize page
+        window.addEventListener('load', function () {
+            generateCalendar();
+        });
+    </script>
+</body>
+
+</html>

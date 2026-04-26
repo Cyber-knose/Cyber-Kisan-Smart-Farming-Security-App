@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Market - Cyber Kissan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="cyber-kissan-common.css">
+    <style>
+        .market-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .market-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .market-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, #E8F5E9, #F1F8E9);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #4CAF50;
+            min-width: 250px;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .action-card i {
+            font-size: 3em;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .action-card h3 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #FF9800;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .crop-listings {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .crop-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .crop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .crop-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3em;
+        }
+
+        .crop-details {
+            padding: 20px;
+        }
+
+        .crop-title {
+            color: #2E7D32;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .crop-price {
+            color: #FF5722;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .crop-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-item i {
+            color: #2196F3;
+        }
+
+        .contact-seller {
+            background: linear-gradient(45deg, #2196F3, #42A5F5);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .contact-seller:hover {
+            background: linear-gradient(45deg, #1976D2, #1E88E5);
+            transform: translateY(-2px);
+        }
+
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #E3F2FD, #F3E5F5);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #E1BEE7;
+        }
+
+        .stat-card i {
+            font-size: 2.5em;
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h3 {
+            color: #1565C0;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #FF5722;
+        }
+
+        .search-filters {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-filters h3 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .no-results i {
+            font-size: 4em;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .safety-notice {
+            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #FFB74D;
+            margin-top: 30px;
+        }
+
+        .safety-notice h3 {
+            color: #E65100;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .safety-notice ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .safety-notice li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .loading-spinner i {
+            font-size: 3em;
+            color: #4CAF50;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="tips.html">Safety Tips</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="quiz.html">Cyber Quiz</a></li>
+                <li><a href="password-generator.html">Password Generator</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="weather.html">Weather Forecast</a></li>
+                <li><a href="crop-market.html" class="active">Crop Market</a></li>
+                <li><a href="digilocker.html">Digi Locker</a></li>
+                <li><a href="fertilizer-scheduler.html">Fertilizer Scheduler</a></li>
+                <li><a href="crop-diseases.html">Crop Diseases</a></li>
+                <li><a href="data-usage.html">Data Usage</a></li>
+            </ul>
+        </nav>
+
+        <header class="header">
+            <i class="fas fa-tractor logo"></i>
+            <h1>Crop Buy & Sell Marketplace</h1>
+            <p>Connect with buyers and sellers directly</p>
+        </header>
+
+        <div class="market-container">
+            <div class="market-header">
+                <h2>Buy or Sell Your Crops</h2>
+                <p>Direct connection between farmers and buyers with secure transactions</p>
+            </div>
+
+            <div class="market-stats">
+                <div class="stat-card">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>Active Listings</h3>
+                    <div class="stat-value" id="active-listings">0</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Successful Deals</h3>
+                    <div class="stat-value" id="successful-deals">0</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Registered Users</h3>
+                    <div class="stat-value" id="registered-users">0</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure Transactions</h3>
+                    <div class="stat-value" id="secure-transactions">100%</div>
+                </div>
+            </div>
+
+            <div class="market-actions">
+                <div class="action-card" onclick="showSellForm()">
+                    <i class="fas fa-seedling"></i>
+                    <h3>Sell Your Crops</h3>
+                    <p>List your crops for sale and connect with buyers</p>
+                    <button class="btn btn-primary">Sell Now</button>
+                </div>
+                <div class="action-card" onclick="showBuyForm()">
+                    <i class="fas fa-shopping-bag"></i>
+                    <h3>Buy Crops</h3>
+                    <p>Browse available crops and contact sellers</p>
+                    <button class="btn btn-secondary">Browse Crops</button>
+                </div>
+            </div>
+
+            <!-- Sell Form Section -->
+            <div id="sell-form" class="form-section">
+                <h3><i class="fas fa-plus-circle"></i> Add Your Crop for Sale</h3>
+                <form onsubmit="submitSellForm(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-seedling"></i> Crop Type</label>
+                            <select class="form-control" required>
+                                <option value="">Select Crop</option>
+                                <option value="wheat">Wheat</option>
+                                <option value="rice">Rice</option>
+                                <option value="cotton">Cotton</option>
+                                <option value="sugarcane">Sugarcane</option>
+                                <option value="pulses">Pulses</option>
+                                <option value="oilseeds">Oilseeds</option>
+                                <option value="millets">Millets</option>
+                                <option value="vegetables">Vegetables</option>
+                                <option value="fruits">Fruits</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-weight"></i> Quantity (in quintals)</label>
+                            <input type="number" class="form-control" placeholder="e.g., 50" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-rupee-sign"></i> Expected Price (per quintal)</label>
+                            <input type="number" class="form-control" placeholder="e.g., 2500" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Location</label>
+                            <input type="text" class="form-control" placeholder="Your village/district" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-info-circle"></i> Additional Details</label>
+                        <textarea class="form-control" rows="3"
+                            placeholder="Quality, packaging, delivery terms, etc."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Contact Number</label>
+                        <input type="tel" class="form-control" placeholder="Your contact number" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Post Crop for Sale
+                    </button>
+
+                    <button type="button" class="btn btn-secondary" onclick="hideForms()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </form>
+            </div>
+
+            <!-- Buy/Browse Section -->
+            <div id="buy-section" class="form-section">
+                <div class="search-filters">
+                    <h3><i class="fas fa-filter"></i> Filter Crops</h3>
+                    <div class="filter-row">
+                        <div class="form-group">
+                            <label>Crop Type</label>
+                            <select class="form-control" id="filter-crop">
+                                <option value="">All Crops</option>
+                                <option value="wheat">Wheat</option>
+                                <option value="rice">Rice</option>
+                                <option value="cotton">Cotton</option>
+                                <option value="sugarcane">Sugarcane</option>
+                                <option value="pulses">Pulses</option>
+                                <option value="oilseeds">Oilseeds</option>
+                                <option value="millets">Millets</option>
+                                <option value="vegetables">Vegetables</option>
+                                <option value="fruits">Fruits</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" class="form-control" id="filter-location" placeholder="Enter location">
+                        </div>
+                        <div class="form-group">
+                            <label>Price Range</label>
+                            <select class="form-control" id="filter-price">
+                                <option value="">Any Price</option>
+                                <option value="0-2000">₹0 - ₹2000/quintal</option>
+                                <option value="2000-5000">₹2000 - ₹5000/quintal</option>
+                                <option value="5000-10000">₹5000 - ₹10000/quintal</option>
+                                <option value="10000+">₹10000+/quintal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="applyFilters()">
+                        <i class="fas fa-search"></i> Apply Filters
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetFilters()">
+                        <i class="fas fa-refresh"></i> Reset
+                    </button>
+                </div>
+
+                <div class="crop-listings" id="crop-listings">
+                    <!-- Sample listings -->
+                    <div class="crop-card">
+                        <div class="crop-image">
+                            <i class="fas fa-wheat-awn"></i>
+                        </div>
+                        <div class="crop-details">
+                            <h3 class="crop-title">Premium Wheat</h3>
+                            <div class="crop-price">₹2,800/quintal</div>
+                            <div class="crop-info">
+                                <div class="info-item">
+                                    <i class="fas fa-weight"></i>
+                                    <span>50 quintals</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Pune, Maharashtra</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>Premium Quality</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Posted 2 days ago</span>
+                                </div>
+                            </div>
+                            <button class="contact-seller"
+                                onclick="contactSeller('wheat-premium', 'Premium Wheat', '₹2,800/quintal')">
+                                <i class="fas fa-phone"></i> Contact Seller
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="crop-card">
+                        <div class="crop-image">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="crop-details">
+                            <h3 class="crop-title">Organic Rice</h3>
+                            <div class="crop-price">₹3,200/quintal</div>
+                            <div class="crop-info">
+                                <div class="info-item">
+                                    <i class="fas fa-weight"></i>
+                                    <span>30 quintals</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Nashik, Maharashtra</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-leaf"></i>
+                                    <span>Organic Certified</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Posted 1 week ago</span>
+                                </div>
+                            </div>
+                            <button class="contact-seller"
+                                onclick="contactSeller('rice-organic', 'Organic Rice', '₹3,200/quintal')">
+                                <i class="fas fa-phone"></i> Contact Seller
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="crop-card">
+                        <div class="crop-image">
+                            <i class="fas fa-cotton-boll"></i>
+                        </div>
+                        <div class="crop-details">
+                            <h3 class="crop-title">Cotton Bales</h3>
+                            <div class="crop-price">₹6,500/quintal</div>
+                            <div class="crop-info">
+                                <div class="info-item">
+                                    <i class="fas fa-weight"></i>
+                                    <span>100 quintals</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Aurangabad, Maharashtra</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-award"></i>
+                                    <span>Export Quality</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Posted 3 days ago</span>
+                                </div>
+                            </div>
+                            <button class="contact-seller"
+                                onclick="contactSeller('cotton-bales', 'Cotton Bales', '₹6,500/quintal')">
+                                <i class="fas fa-phone"></i> Contact Seller
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="no-results" id="no-results" style="display: none;">
+                    <i class="fas fa-search"></i>
+                    <h3>No crops found</h3>
+                    <p>Try adjusting your filters or check back later for new listings.</p>
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="hideForms()">
+                <i class="fas fa-arrow-left"></i> Back to Market
+            </button>
+        </div>
+
+        <div class="safety-notice">
+            <h3><i class="fas fa-shield-alt"></i> Safety Guidelines</h3>
+            <ul>
+                <li><strong>Verify Identity:</strong> Always verify the identity of buyers/sellers before transactions
+                </li>
+                <li><strong>Meet Safely:</strong> Meet in public places or bring someone with you</li>
+                <li><strong>Quality Check:</strong> Inspect crop quality before making payment</li>
+                <li><strong>Use Secure Payment:</strong> Avoid cash transactions, use secure payment methods</li>
+                <li><strong>Documentation:</strong> Get proper receipts and documentation for all transactions</li>
+                <li><strong>Report Issues:</strong> Report any suspicious activity to our support team</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner"></i>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Cyber Kisan. Empowering Farmers Digitally.</p>
+    </footer>
+
+    <script src="chatbot.js"></script>
+    <script>
+        // Market Functions
+        let currentListings = [];
+        let filteredListings = [];
+
+        function showSellForm() {
+            document.getElementById('sell-form').classList.add('active');
+            document.getElementById('buy-section').classList.remove('active');
+            document.querySelector('.market-actions').style.display = 'none';
+        }
+
+        function showBuyForm() {
+            document.getElementById('buy-section').classList.add('active');
+            document.getElementById('sell-form').classList.remove('active');
+            document.querySelector('.market-actions').style.display = 'none';
+            loadCropListings();
+        }
+
+        function hideForms() {
+            document.getElementById('sell-form').classList.remove('active');
+            document.getElementById('buy-section').classList.remove('active');
+            document.querySelector('.market-actions').style.display = 'flex';
+        }
+
+        function submitSellForm(event) {
+            event.preventDefault();
+            showLoading(true);
+
+            // Simulate form submission
+            setTimeout(() => {
+                showLoading(false);
+                alert('✅ Your crop has been successfully listed for sale!\n\nYou will receive inquiries from interested buyers via SMS/call.');
+                hideForms();
+            }, 2000);
+        }
+
+        function loadCropListings() {
+            // Simulate loading listings
+            showLoading(true);
+
+            setTimeout(() => {
+                currentListings = generateSampleListings();
+                filteredListings = [...currentListings];
+                displayListings(filteredListings);
+                updateStats();
+                showLoading(false);
+            }, 1000);
+        }
+
+        function generateSampleListings() {
+            const crops = [
+                { name: 'Wheat', icon: 'fa-wheat-awn', price: 2800, quantity: 50, location: 'Pune, Maharashtra', quality: 'Premium', days: 2 },
+                { name: 'Rice', icon: 'fa-seedling', price: 3200, quantity: 30, location: 'Nashik, Maharashtra', quality: 'Organic', days: 7 },
+                { name: 'Cotton', icon: 'fa-cotton-boll', price: 6500, quantity: 100, location: 'Aurangabad, Maharashtra', quality: 'Export', days: 3 },
+                { name: 'Sugarcane', icon: 'fa-candy-cane', price: 3500, quantity: 75, location: 'Kolhapur, Maharashtra', quality: 'High Grade', days: 5 },
+                { name: 'Pulses', icon: 'fa-seedling', price: 4500, quantity: 40, location: 'Nagpur, Maharashtra', quality: 'Organic', days: 1 },
+                { name: 'Oilseeds', icon: 'fa-oil-can', price: 5200, quantity: 60, location: 'Solapur, Maharashtra', quality: 'Premium', days: 4 }
+            ];
+
+            return crops.map((crop, index) => ({
+                id: `crop-${index}`,
+                ...crop,
+                seller: `Farmer ${index + 1}`,
+                contact: `+91 98${Math.floor(Math.random() * 100000000)}`
+            }));
+        }
+
+        function displayListings(listings) {
+            const container = document.getElementById('crop-listings');
+            const noResults = document.getElementById('no-results');
+
+            if (listings.length === 0) {
+                container.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            noResults.style.display = 'none';
+            container.innerHTML = '';
+
+            listings.forEach(listing => {
+                const card = createListingCard(listing);
+                container.appendChild(card);
+            });
+        }
+
+        function createListingCard(listing) {
+            const card = document.createElement('div');
+            card.className = 'crop-card';
+            card.innerHTML = `
+                <div class="crop-image">
+                    <i class="fas ${listing.icon}"></i>
+                </div>
+                <div class="crop-details">
+                    <h3 class="crop-title">${listing.name}</h3>
+                    <div class="crop-price">₹${listing.price.toLocaleString()}/quintal</div>
+                    <div class="crop-info">
+                        <div class="info-item">
+                            <i class="fas fa-weight"></i>
+                            <span>${listing.quantity} quintals</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${listing.location}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-star"></i>
+                            <span>${listing.quality} Quality</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Posted ${listing.days} days ago</span>
+                        </div>
+                    </div>
+                    <button class="contact-seller" onclick="contactSeller('${listing.id}', '${listing.name}', '₹${listing.price}/quintal')">
+                        <i class="fas fa-phone"></i> Contact Seller
+                    </button>
+                </div>
+            `;
+            return card;
+        }
+
+        function applyFilters() {
+            const cropFilter = document.getElementById('filter-crop').value;
+            const locationFilter = document.getElementById('filter-location').value.toLowerCase();
+            const priceFilter = document.getElementById('filter-price').value;
+
+            filteredListings = currentListings.filter(listing => {
+                let matches = true;
+
+                if (cropFilter && listing.name.toLowerCase() !== cropFilter.toLowerCase()) {
+                    matches = false;
+                }
+
+                if (locationFilter && !listing.location.toLowerCase().includes(locationFilter)) {
+                    matches = false;
+                }
+
+                if (priceFilter) {
+                    const [min, max] = priceFilter.split('-').map(p => parseInt(p.replace(/[^0-9]/g, '')));
+                    if (max && listing.price > max) matches = false;
+                    if (min && listing.price < min) matches = false;
+                    if (priceFilter.includes('+') && listing.price < 10000) matches = false;
+                }
+
+                return matches;
+            });
+
+            displayListings(filteredListings);
+        }
+
+        function resetFilters() {
+            document.getElementById('filter-crop').value = '';
+            document.getElementById('filter-location').value = '';
+            document.getElementById('filter-price').value = '';
+            displayListings(currentListings);
+        }
+
+        function contactSeller(listingId, cropName, price) {
+            const listing = currentListings.find(l => l.id === listingId);
+            if (listing) {
+                alert(`Contact Details:\n\nCrop: ${cropName}\nPrice: ${price}\nLocation: ${listing.location}\n\nSeller Contact: ${listing.contact}\n\nPlease verify the seller's identity before making any transactions.`);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('active-listings').textContent = currentListings.length;
+            document.getElementById('successful-deals').textContent = Math.floor(Math.random() * 100) + 50;
+            document.getElementById('registered-users').textContent = Math.floor(Math.random() * 500) + 200;
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading-overlay').style.display = show ? 'flex' : 'none';
+        }
+
+        // Initialize page
+        window.addEventListener('load', function () {
+            updateStats();
+            hideForms();
+        });
+    </script>
+</body>
+
+</html>

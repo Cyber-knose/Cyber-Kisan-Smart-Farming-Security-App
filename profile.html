@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - Cyber Kissan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="cyber-kissan-common.css">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="tips.html">Safety Tips</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="quiz.html">Cyber Quiz</a></li>
+                <li><a href="password-generator.html">Password Generator</a></li>
+                <li><a href="profile.html" class="active">My Account</a></li>
+                <li><a href="weather.html">Weather Forecast</a></li>
+                <li><a href="crop-market.html">Crop Market</a></li>
+                <li><a href="digilocker.html">Digi Locker</a></li>
+                <li><a href="fertilizer-scheduler.html">Fertilizer Scheduler</a></li>
+                <li><a href="crop-diseases.html">Crop Diseases</a></li>
+                <li><a href="data-usage.html">Data Usage</a></li>
+            </ul>
+        </nav>
+
+        <header class="header">
+            <i class="fas fa-tractor logo"></i>
+            <h1>My Account</h1>
+            <p>Your Cyber Kissan Profile</p>
+        </header>
+
+        <div class="card">
+            <h2><i class="fas fa-user-circle"></i> Profile Information</h2>
+
+            <div class="profile-card">
+                <h3>Welcome, Farmer!</h3>
+                <p><strong>Mobile Number:</strong> <span id="profile-mobile"></span></p>
+                <p><strong>Member Since:</strong> <span id="member-since"></span></p>
+                <p><strong>Last Login:</strong> <span id="last-login"></span></p>
+                <p><strong>Account Status:</strong> <span style="color: #4CAF50;">Active</span></p>
+            </div>
+
+            <h3><i class="fas fa-chart-line"></i> Your Activity</h3>
+            <ul>
+                <li>Quizzes Completed: <strong id="quiz-count">0</strong></li>
+                <li>Passwords Generated: <strong id="password-count">0</strong></li>
+                <li>Chatbot Interactions: <strong id="chatbot-count">0</strong></li>
+            </ul>
+
+            <h3><i class="fas fa-cog"></i> Account Settings</h3>
+            <div style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="viewSecurityTips()">
+                    <i class="fas fa-shield-alt"></i> Security Tips
+                </button>
+                <button class="btn btn-secondary" onclick="downloadData()">
+                    <i class="fas fa-download"></i> Download My Data
+                </button>
+                <button class="btn emergency-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Cyber Kisan. Empowering Farmers Digitally.</p>
+        </footer>
+    </div>
+
+    <script src="chatbot.js"></script>
+    <script>
+        // Load profile data
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobile = localStorage.getItem('cyberKissanMobile');
+            const loginTime = localStorage.getItem('cyberKissanLoginTime');
+
+            if (!mobile) {
+                // Not logged in, redirect to login
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Display profile info
+            document.getElementById('profile-mobile').textContent = `+91 ${mobile}`;
+            document.getElementById('member-since').textContent = 'January 2025';
+            document.getElementById('last-login').textContent = loginTime || 'Just now';
+
+            // Load activity counts
+            document.getElementById('quiz-count').textContent = localStorage.getItem('cyberKissanQuizCount') || '0';
+            document.getElementById('password-count').textContent = localStorage.getItem('cyberKissanPasswordCount') || '0';
+            document.getElementById('chatbot-count').textContent = localStorage.getItem('cyberKissanChatbotCount') || '0';
+        });
+
+        function viewSecurityTips() {
+            window.location.href = 'tips.html';
+        }
+
+        function downloadData() {
+            const data = {
+                mobile: localStorage.getItem('cyberKissanMobile'),
+                loginTime: localStorage.getItem('cyberKissanLoginTime'),
+                quizCount: localStorage.getItem('cyberKissanQuizCount') || '0',
+                passwordCount: localStorage.getItem('cyberKissanPasswordCount') || '0',
+                chatbotCount: localStorage.getItem('cyberKissanChatbotCount') || '0'
+            };
+
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'cyber-kissan-data.json';
+            link.click();
+
+            alert('✅ Your data has been downloaded!');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('cyberKissanLoggedIn');
+                localStorage.removeItem('cyberKissanMobile');
+                localStorage.removeItem('cyberKissanLoginTime');
+
+                alert('✅ Successfully logged out!');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Quiz - Cyber Kissan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="cyber-kissan-common.css">
+    <style>
+        .quiz-section {
+            margin: 20px 0;
+        }
+
+        .quiz-question {
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .quiz-options button {
+            margin: 5px 0;
+        }
+
+        .quiz-result {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #333;
+            border-radius: 25px;
+            margin: 10px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="tips.html">Safety Tips</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="quiz.html" class="active">Cyber Quiz</a></li>
+                <li><a href="password-generator.html" target="_blank">Password Generator</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="weather.html">Weather Forecast</a></li>
+                <li><a href="crop-market.html">Crop Market</a></li>
+                <li><a href="digilocker.html">Digi Locker</a></li>
+                <li><a href="fertilizer-scheduler.html">Fertilizer Scheduler</a></li>
+                <li><a href="crop-diseases.html">Crop Diseases</a></li>
+                <li><a href="data-usage.html">Data Usage</a></li>
+            </ul>
+        </nav>
+
+        <header class="header">
+            <i class="fas fa-tractor logo"></i>
+            <h1>Cyber Security Quiz</h1>
+            <p>Test your knowledge and earn badges! Answer questions to stay informed.</p>
+        </header>
+
+        <div class="card">
+            <h2>Test Your Cyber Security Knowledge</h2>
+            <p>Answer all questions and see how much you know about staying safe online!</p>
+
+            <div class="quiz-section">
+                <div class="quiz-question">
+                    <p><strong>1. What is phishing?</strong></p>
+                    <div class="quiz-options">
+                        <button class="btn" onclick="checkAnswer(1, 'a')">a) A type of fish</button>
+                        <button class="btn" onclick="checkAnswer(1, 'b')">b) Fake emails to steal info</button>
+                        <button class="btn" onclick="checkAnswer(1, 'c')">c) A farming tool</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>2. How can you protect against malware?</strong></p>
+                    <div class="quiz-options">
+                        <button class="btn" onclick="checkAnswer(2, 'a')">a) Update software</button>
+                        <button class="btn" onclick="checkAnswer(2, 'b')">b) Share passwords</button>
+                        <button class="btn" onclick="checkAnswer(2, 'c')">c) Click all links</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>3. What should you do if you receive a suspicious call asking for bank details?</strong>
+                    </p>
+                    <div class="quiz-options">
+                        <button class="btn" onclick="checkAnswer(3, 'a')">a) Give the details immediately</button>
+                        <button class="btn" onclick="checkAnswer(3, 'b')">b) Hang up and report to bank</button>
+                        <button class="btn" onclick="checkAnswer(3, 'c')">c) Ask for more information</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>4. What is a strong password?</strong></p>
+                    <div class="quiz-options">
+                        <button class="btn" onclick="checkAnswer(4, 'a')">a) 12345678</button>
+                        <button class="btn" onclick="checkAnswer(4, 'b')">b) Your birthday</button>
+                        <button class="btn" onclick="checkAnswer(4, 'c')">c) 12+ characters with mixed case &
+                            symbols</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>5. What is OTP fraud?</strong></p>
+                    <div class="quiz-options">
+                        <button class="btn" onclick="checkAnswer(5, 'a')">a) Over-the-phone friendship</button>
+                        <button class="btn" onclick="checkAnswer(5, 'b')">b) Stealing one-time passwords</button>
+                        <button class="btn" onclick="checkAnswer(5, 'c')">c) Online ticket purchasing</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-result" id="quiz-result"></div>
+            <div id="badges" class="text-center"></div>
+        </div>
+
+        <div class="card">
+            <h2>Your Score & Badges</h2>
+            <p>Collect badges based on your performance:</p>
+            <ul>
+                <li>🥉 <strong>Bronze Badge:</strong> 2-3 correct answers</li>
+                <li>🥈 <strong>Silver Badge:</strong> 4 correct answers</li>
+                <li>🥇 <strong>Gold Badge:</strong> 5 correct answers (Perfect Score!)</li>
+            </ul>
+            <button class="btn btn-primary" onclick="resetQuiz()">Retake Quiz</button>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Cyber Kisan. Empowering Farmers Digitally.</p>
+        </footer>
+    </div>
+
+    <script src="chatbot.js"></script>
+    <script>
+        let quizScore = 0;
+        const correctAnswers = { 1: 'b', 2: 'a', 3: 'b', 4: 'c', 5: 'b' };
+        let answeredQuestions = {};
+
+        function checkAnswer(question, answer) {
+            if (answeredQuestions[question]) return; // Already answered
+
+            answeredQuestions[question] = true;
+
+            if (correctAnswers[question] === answer) {
+                quizScore++;
+                alert('Correct! 🎉');
+            } else {
+                alert('Wrong! Try again. ❌');
+            }
+
+            updateResult();
+        }
+
+        function updateResult() {
+            const totalQuestions = Object.keys(correctAnswers).length;
+            const resultDiv = document.getElementById('quiz-result');
+            const badgesDiv = document.getElementById('badges');
+
+            resultDiv.innerHTML = `Your Score: ${quizScore}/${totalQuestions}`;
+
+            // Award badges
+            badgesDiv.innerHTML = '';
+            if (quizScore >= 2 && quizScore <= 3) {
+                badgesDiv.innerHTML = '<span class="badge">🥉 Bronze Badge</span>';
+            } else if (quizScore === 4) {
+                badgesDiv.innerHTML = '<span class="badge">🥈 Silver Badge</span>';
+            } else if (quizScore === 5) {
+                badgesDiv.innerHTML = '<span class="badge">🥇 Gold Badge</span><span class="badge">🏆 Perfect Score!</span>';
+            }
+
+            if (Object.keys(answeredQuestions).length === totalQuestions) {
+                resultDiv.innerHTML += '<br><strong>Quiz Complete!</strong>';
+                if (quizScore === totalQuestions) {
+                    resultDiv.innerHTML += '<br>🎊 Congratulations! You got a perfect score!';
+                }
+            }
+        }
+
+        function resetQuiz() {
+            quizScore = 0;
+            answeredQuestions = {};
+            document.getElementById('quiz-result').innerHTML = '';
+            document.getElementById('badges').innerHTML = '';
+
+            // Re-enable all buttons
+            const buttons = document.querySelectorAll('.quiz-options button');
+            buttons.forEach(button => {
+                button.disabled = false;
+                button.style.opacity = '1';
+            });
+
+            alert('Quiz reset! You can take it again.');
+        }
+
+        // Disable buttons after answering
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('btn') && e.target.parentElement.classList.contains('quiz-options')) {
+                const buttons = e.target.parentElement.querySelectorAll('button');
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.6';
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Kissan - Protect Farmers from Cyber Crimes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="cyber-kissan-common.css">
+    <style>
+        .hyper-buttons {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .chatbot-button {
+            display: block;
+            margin: 20px auto;
+            background: #FF0000;
+            font-size: 1.2em;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        .chatbot-button:hover {
+            background: #CC0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+        }
+
+        .chatbot-instruction {
+            text-align: center;
+            margin: 10px 0;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .cyber-crimes {
+            margin: 20px 0;
+        }
+
+        .crime-category {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-left: 5px solid #4CAF50;
+            background: #F1F8E9;
+        }
+
+        .extra-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="tips.html">Safety Tips</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="quiz.html">Cyber Quiz</a></li>
+                <li><a href="password-generator.html" target="_blank">Password Generator</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="weather.html">Weather Forecast</a></li>
+                <li><a href="crop-market.html">Crop Market</a></li>
+                <li><a href="digilocker.html">Digi Locker</a></li>
+                <li><a href="fertilizer-scheduler.html">Fertilizer Scheduler</a></li>
+                <li><a href="crop-diseases.html">Crop Diseases</a></li>
+                <li><a href="data-usage.html">Data Usage</a></li>
+            </ul>
+        </nav>
+
+        <header class="header">
+            <i class="fas fa-tractor logo"></i>
+            <h1>Cyber Kissan - Protect Farmers from Cyber Crimes</h1>
+            <p>An innovative app to keep Indian farmers safe online with education, tools, and real-time support.</p>
+
+            <!-- New impactful line -->
+            <p style="color: #FF9800; font-weight: bold; font-size: 1.2em; margin: 10px 0;">
+                <i class="fas"></i> Already saved ₹500+ crore worth of farmers' money from cyber frauds!
+            </p>
+
+            <div class="hyper-buttons">
+                <button class="btn btn-secondary"
+                    onclick="window.open('https://agriwelfare.gov.in/', '_blank')">Agriculture Ministry</button>
+                <button class="btn btn-secondary" onclick="window.open('https://cybercrime.gov.in/', '_blank')">Cyber
+                    Crime Portal</button>
+                <button class="btn btn-secondary"
+                    onclick="window.open('https://www.krishakjagat.org/', '_blank')">Farmer Helpline</button>
+                <button class="btn btn-secondary" onclick="window.open('https://haveibeenpwned.com/', '_blank')">Check
+                    if Hacked</button>
+                <button class="btn btn-secondary" onclick="window.open('https://www.virustotal.com/', '_blank')">Scan
+                    for Viruses</button>
+                <button class="btn btn-secondary" onclick="window.open('https://retail.sbi.bank.in/', '_blank')">SBI Net
+                    Banking</button>
+                <button class="btn btn-secondary" onclick="window.open('https://takeitdown.ncmec.org/', '_blank')">Take
+                    It Down</button>
+                <button class="btn btn-secondary"
+                    onclick="window.open('https://www.cert-in.org.in/', '_blank')">CERT-IN</button>
+            </div>
+
+            <p class="chatbot-instruction">Click to chat with our AI assistant for personalized advice</p>
+            <button class="btn chatbot-button" onclick="toggleChatbot()">AI Chatbot</button>
+        </header>
+
+        <div class="card">
+            <h2>What is Cyber Kisan?</h2>
+            <p>This app empowers farmers in India to stay safe from cyber threats through education, interactive tools,
+                and direct reporting. Learn about common crimes and protect your digital life.</p>
+
+            <div class="cyber-crimes">
+                <h3>Common Cyber Crimes Targeting Farmers</h3>
+                <p>Many cyber crimes involve third parties like scammers or hackers. Here are key categories:</p>
+
+                <div class="crime-category">
+                    <h4>1. Phishing/Scams (Fake Offers)</h4>
+                    <p>Scammers send fake messages pretending to be banks or agencies, tricking you into sharing info or
+                        money. Example: Fake loan offers for farming equipment.</p>
+                </div>
+
+                <div class="crime-category">
+                    <h4>2. Data Theft (Identity Stealing)</h4>
+                    <p>Hackers steal data from apps/websites to impersonate you. Example: Using Aadhaar details to
+                        access subsidies illegally.</p>
+                </div>
+
+                <div class="crime-category">
+                    <h4>3. Malware/Ransomware (Harmful Software)</h4>
+                    <p>Viruses lock devices until ransom is paid. Example: Infecting farm apps to demand payment.</p>
+                </div>
+
+                <div class="crime-category">
+                    <h4>4. QR Code Fraud</h4>
+                    <p>Fake QR codes lead to sites that steal card details or install malware.</p>
+                </div>
+
+                <div class="crime-category">
+                    <h4>5. Deepfake Crime</h4>
+                    <p>AI-altered media for fraud or harassment. Example: Voice cloning for unauthorized transactions.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="extra-buttons">
+            <button class="btn" onclick="reportCrime()">Report a Crime</button>
+            <button class="btn" onclick="contactHelp()">Contact Help</button>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Cyber Kisan. Empowering Farmers Digitally.</p>
+        </footer>
+    </div>
+
+    <!-- Chatbot HTML -->
+    <div id="chatbot" class="chatbot">
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Type your message..."
+                onkeypress="if(event.key==='Enter') sendMessage()">
+            <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="chatbot.js"></script>
+    <script>
+        function reportCrime() {
+            window.open("https://cybercrime.gov.in/", "_blank");
+        }
+
+        function contactHelp() {
+            window.location.href = "mailto:maxinfo989@gmail.com";
+        }
+    </script>
+</body>
+
+</html>

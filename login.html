@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Cyber Kissan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="cyber-kissan-common.css">
+    <style>
+        .login-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .login-card h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .login-card p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .login-step {
+            display: none;
+        }
+
+        .login-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .otp-info {
+            background: #E3F2FD;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #2196F3;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .otp-info h4 {
+            color: #1565C0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .otp-info ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .otp-info li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .timer {
+            font-size: 1.2em;
+            color: #FF5722;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .resend-otp {
+            color: #2196F3;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        .resend-otp:hover {
+            color: #FF9800;
+        }
+
+        .resend-otp.disabled {
+            color: #ccc;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, #E8F5E9, #F1F8E9);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .profile-card h3 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+
+        .profile-card p {
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .emergency-logout {
+            background: linear-gradient(45deg, #FF5722, #E64A19);
+            margin-top: 20px;
+        }
+
+        .emergency-logout:hover {
+            background: linear-gradient(45deg, #E64A19, #D84315);
+        }
+
+        .login-tips {
+            background: #FFF3E0;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #FFB74D;
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .login-tips h4 {
+            color: #E65100;
+            margin-bottom: 10px;
+        }
+
+        .login-tips ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .login-tips li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .already-logged-in {
+            background: #E8F5E9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #4CAF50;
+        }
+
+        .already-logged-in h3 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+
+        /* OTP Input Fields */
+        .otp-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .otp-input:focus {
+            border-color: #FF9800;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+            transform: scale(1.05);
+        }
+
+        .phone-input-container {
+            position: relative;
+        }
+
+        .phone-input-container .input-group-text {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .phone-input {
+            padding-left: 60px !important;
+        }
+
+        .error-message {
+            color: #f44336;
+            background: #ffebee;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .success-message {
+            color: #4CAF50;
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="tips.html">Safety Tips</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="quiz.html">Cyber Quiz</a></li>
+                <li><a href="password-generator.html">Password Generator</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
+                <li><a href="weather.html">Weather Forecast</a></li>
+                <li><a href="crop-market.html">Crop Market</a></li>
+                <li><a href="digilocker.html">Digi Locker</a></li>
+                <li><a href="fertilizer-scheduler.html">Fertilizer Scheduler</a></li>
+                <li><a href="crop-diseases.html">Crop Diseases</a></li>
+                <li><a href="data-usage.html">Data Usage</a></li>
+            </ul>
+        </nav>
+
+        <header class="header">
+            <i class="fas fa-tractor logo"></i>
+            <h1>Farmer Login</h1>
+            <p>Secure login with OTP for your safety</p>
+        </header>
+
+        <div class="login-container">
+            <div class="login-card">
+                <h2><i class="fas fa-sign-in-alt"></i> Login via OTP</h2>
+                <p>Enter your mobile number to receive OTP</p>
+
+                <!-- Step 1: Mobile Number Input -->
+                <div id="step1" class="login-step active">
+                    <div class="otp-info">
+                        <h4><i class="fas fa-info-circle"></i> Why OTP Login?</h4>
+                        <ul>
+                            <li>No need to remember passwords</li>
+                            <li>More secure than traditional login</li>
+                            <li>OTP comes directly to your phone</li>
+                            <li>Quick and easy for farmers</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobile" class="form-label">
+                            <i class="fas fa-mobile-alt"></i> Mobile Number
+                        </label>
+                        <div class="phone-input-container">
+                            <span class="input-group-text">+91</span>
+                            <input type="tel" id="mobile" class="form-control phone-input"
+                                placeholder="Enter 10-digit mobile number" maxlength="10" pattern="[0-9]{10}">
+                        </div>
+                        <div id="mobile-error" class="error-message"></div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="sendOTP()">
+                        <i class="fas fa-paper-plane"></i> Send OTP
+                    </button>
+
+                    <div class="login-tips">
+                        <h4><i class="fas fa-lightbulb"></i> Login Tips</h4>
+                        <ul>
+                            <li>Make sure your mobile number is active</li>
+                            <li>OTP will be sent via SMS</li>
+                            <li>OTP is valid for 5 minutes</li>
+                            <li>Don't share OTP with anyone</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 2: OTP Verification -->
+                <div id="step2" class="login-step">
+                    <div class="otp-info">
+                        <h4><i class="fas fa-sms"></i> Enter OTP</h4>
+                        <p>We have sent a 6-digit OTP to <strong id="display-mobile"></strong></p>
+                        <p>Please enter the code below:</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Enter 6-digit OTP:</label>
+                        <div class="otp-inputs">
+                            <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 0)">
+                            <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 1)">
+                            <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 2)">
+                            <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 3)">
+                            <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 4)">
+                            <input type="text" class="otp-input" maxlength="1" oninput="moveToNext(this, 5)">
+                        </div>
+                        <div id="otp-error" class="error-message"></div>
+                        <div id="otp-success" class="success-message"></div>
+                    </div>
+
+                    <div class="timer" id="timer">Time remaining: 5:00</div>
+
+                    <button class="btn btn-primary" onclick="verifyOTP()">
+                        <i class="fas fa-check"></i> Verify OTP
+                    </button>
+
+                    <div class="text-center">
+                        <span class="resend-otp" id="resend-otp" onclick="resendOTP()">
+                            <i class="fas fa-redo"></i> Resend OTP
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Step 3: Profile/Logged In -->
+                <div id="step3" class="login-step">
+                    <div class="already-logged-in">
+                        <h3><i class="fas fa-check-circle"></i> Successfully Logged In!</h3>
+                        <p>Welcome to Cyber Kissan - Your digital safety partner</p>
+                    </div>
+
+                    <div class="profile-card">
+                        <h3><i class="fas fa-user"></i> Your Profile</h3>
+                        <p><strong>Mobile:</strong> <span id="user-mobile"></span></p>
+                        <p><strong>Login Time:</strong> <span id="login-time"></span></p>
+                        <p><strong>Status:</strong> <span style="color: #4CAF50;">Active</span></p>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="goToDashboard()">
+                        <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+                    </button>
+
+                    <button class="btn emergency-logout" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Cyber Kisan. Empowering Farmers Digitally.</p>
+        </footer>
+    </div>
+
+    <!-- Chatbot -->
+    <div id="chatbot" class="chatbot">
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Type your message..."
+                onkeypress="if(event.key==='Enter') sendMessage()">
+            <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script src="chatbot.js"></script>
+    <script>
+        // OTP Login System
+        let currentMobile = '';
+        let generatedOTP = '';
+        let otpExpiry = null;
+        let timerInterval = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if already logged in
+            if (localStorage.getItem('cyberKissanLoggedIn') === 'true') {
+                showStep(3);
+                document.getElementById('user-mobile').textContent = localStorage.getItem('cyberKissanMobile') || '';
+                document.getElementById('login-time').textContent = localStorage.getItem('cyberKissanLoginTime') || '';
+            }
+
+            // Add input validation for mobile number
+            const mobileInput = document.getElementById('mobile');
+            mobileInput.addEventListener('input', function () {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                if (this.value.length > 10) {
+                    this.value = this.value.slice(0, 10);
+                }
+            });
+        });
+
+        function showStep(stepNumber) {
+            const steps = document.querySelectorAll('.login-step');
+            steps.forEach(step => step.classList.remove('active'));
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+        }
+
+        function sendOTP() {
+            const mobile = document.getElementById('mobile').value.trim();
+            const errorDiv = document.getElementById('mobile-error');
+
+            // Validation
+            if (!mobile) {
+                errorDiv.textContent = 'Please enter your mobile number';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            if (mobile.length !== 10) {
+                errorDiv.textContent = 'Please enter a valid 10-digit mobile number';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            errorDiv.style.display = 'none';
+
+            // Generate OTP (in real implementation, this would come from backend)
+            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            currentMobile = mobile;
+
+            // Store in localStorage for demo
+            localStorage.setItem('cyberKissanOTP', generatedOTP);
+            localStorage.setItem('cyberKissanMobile', mobile);
+            localStorage.setItem('cyberKissanOTPTime', Date.now() + 5 * 60 * 1000); // 5 minutes
+
+            // Display mobile number
+            document.getElementById('display-mobile').textContent = `+91 ${mobile}`;
+
+            // Show success message
+            alert(`✅ OTP sent successfully!\n\nDemo OTP: ${generatedOTP}\n\nIn real implementation, this would come via SMS`);
+
+            // Move to OTP verification step
+            showStep(2);
+
+            // Start timer
+            startOTPTimer();
+
+            // Focus first OTP input
+            setTimeout(() => {
+                document.querySelector('.otp-input').focus();
+            }, 100);
+        }
+
+        function startOTPTimer() {
+            const expiryTime = parseInt(localStorage.getItem('cyberKissanOTPTime'));
+            const timerDiv = document.getElementById('timer');
+            const resendLink = document.getElementById('resend-otp');
+
+            function updateTimer() {
+                const now = Date.now();
+                const remaining = expiryTime - now;
+
+                if (remaining <= 0) {
+                    timerDiv.textContent = 'OTP expired';
+                    resendLink.classList.remove('disabled');
+                    clearInterval(timerInterval);
+                    return;
+                }
+
+                const minutes = Math.floor(remaining / 60000);
+                const seconds = Math.floor((remaining % 60000) / 1000);
+                timerDiv.textContent = `Time remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                // Disable resend if less than 30 seconds remaining
+                if (remaining < 30000) {
+                    resendLink.classList.add('disabled');
+                }
+            }
+
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function moveToNext(current, index) {
+            const inputs = document.querySelectorAll('.otp-input');
+            if (current.value.length === 1 && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+
+            // Auto-submit when all fields are filled
+            const allFilled = Array.from(inputs).every(input => input.value.length === 1);
+            if (allFilled) {
+                setTimeout(verifyOTP, 500);
+            }
+        }
+
+        function verifyOTP() {
+            const inputs = document.querySelectorAll('.otp-input');
+            let enteredOTP = '';
+
+            inputs.forEach(input => {
+                enteredOTP += input.value;
+            });
+
+            const errorDiv = document.getElementById('otp-error');
+            const successDiv = document.getElementById('otp-success');
+
+            // Validation
+            if (enteredOTP.length !== 6) {
+                errorDiv.textContent = 'Please enter complete 6-digit OTP';
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
+                return;
+            }
+
+            errorDiv.style.display = 'none';
+
+            // Check if OTP is expired
+            const expiryTime = parseInt(localStorage.getItem('cyberKissanOTPTime'));
+            if (Date.now() > expiryTime) {
+                errorDiv.textContent = 'OTP has expired. Please request a new one.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            // Verify OTP (compare with stored OTP)
+            const storedOTP = localStorage.getItem('cyberKissanOTP');
+
+            if (enteredOTP === storedOTP) {
+                successDiv.textContent = '✅ OTP verified successfully!';
+                successDiv.style.display = 'block';
+
+                // Clear timer
+                clearInterval(timerInterval);
+
+                // Store login status
+                localStorage.setItem('cyberKissanLoggedIn', 'true');
+                localStorage.setItem('cyberKissanLoginTime', new Date().toLocaleString());
+
+                // Show success for 2 seconds then move to dashboard
+                setTimeout(() => {
+                    showStep(3);
+                }, 2000);
+
+            } else {
+                errorDiv.textContent = '❌ Invalid OTP. Please try again.';
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
+
+                // Clear all inputs
+                inputs.forEach(input => input.value = '');
+                inputs[0].focus();
+            }
+        }
+
+        function resendOTP() {
+            const resendLink = document.getElementById('resend-otp');
+            if (resendLink.classList.contains('disabled')) return;
+
+            // Clear existing timer
+            clearInterval(timerInterval);
+
+            // Send new OTP
+            sendOTP();
+
+            // Reset timer display
+            document.getElementById('timer').textContent = 'Time remaining: 5:00';
+        }
+
+        function goToDashboard() {
+            // Redirect to main dashboard or home page
+            window.location.href = 'index.html?loggedIn=true';
+        }
+
+        function logout() {
+            // Clear all stored data
+            localStorage.removeItem('cyberKissanLoggedIn');
+            localStorage.removeItem('cyberKissanMobile');
+            localStorage.removeItem('cyberKissanLoginTime');
+            localStorage.removeItem('cyberKissanOTP');
+            localStorage.removeItem('cyberKissanOTPTime');
+
+            // Clear timer
+            clearInterval(timerInterval);
+
+            // Go back to login
+            showStep(1);
+
+            // Clear form
+            document.getElementById('mobile').value = '';
+            document.querySelectorAll('.otp-input').forEach(input => input.value = '');
+
+            alert('✅ Successfully logged out!');
+        }
+
+        // Add keyboard navigation for OTP inputs
+        document.addEventListener('DOMContentLoaded', function () {
+            const otpInputs = document.querySelectorAll('.otp-input');
+
+            otpInputs.forEach((input, index) => {
+                input.addEventListener('keydown', function (e) {
+                    if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                        otpInputs[index - 1].focus();
+                    }
+                });
+
+                input.addEventListener('input', function () {
+                    if (this.value.length > 1) {
+                        this.value = this.value.slice(0, 1);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

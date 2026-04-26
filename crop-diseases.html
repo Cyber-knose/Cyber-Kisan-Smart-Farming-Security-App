@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Diseases - Cyber Kissan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="cyber-kissan-common.css">
+    <style>
+        .diseases-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .disease-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .alert-section {
+            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid #FFB74D;
+        }
+
+        .alert-section h3 {
+            color: #E65100;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .alert-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #FF5722;
+        }
+
+        .alert-item.critical {
+            border-left-color: #f44336;
+            background: #ffebee;
+        }
+
+        .alert-item.warning {
+            border-left-color: #ff9800;
+            background: #fff8e1;
+        }
+
+        .alert-item.info {
+            border-left-color: #2196f3;
+            background: #e3f2fd;
+        }
+
+        .alert-location {
+            font-weight: bold;
+            color: #E65100;
+            margin-bottom: 5px;
+        }
+
+        .alert-disease {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .alert-crop {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .alert-date {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .disease-search {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .disease-search h3 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .filter-control {
+            padding: 10px;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .symptom-checker {
+            background: linear-gradient(135deg, #E3F2FD, #F3E5F5);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #2196F3;
+        }
+
+        .symptom-checker h3 {
+            color: #1565C0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .symptom-input {
+            margin-bottom: 20px;
+        }
+
+        .symptom-input textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        .symptom-input label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .image-upload {
+            margin: 20px 0;
+        }
+
+        .upload-area {
+            border: 2px dashed #4CAF50;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background: #F1F8E9;
+            border-color: #45a049;
+        }
+
+        .upload-area i {
+            font-size: 3em;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .upload-area p {
+            margin: 0;
+            color: #666;
+        }
+
+        .disease-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .disease-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .disease-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .disease-header {
+            background: linear-gradient(45deg, #FF5722, #E64A19);
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+
+        .disease-header.critical {
+            background: linear-gradient(45deg, #f44336, #d32f2f);
+        }
+
+        .disease-header.moderate {
+            background: linear-gradient(45deg, #ff9800, #f57c00);
+        }
+
+        .disease-header.low {
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+        }
+
+        .severity-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .disease-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .disease-scientific {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .disease-content {
+            padding: 20px;
+        }
+
+        .affected-crops {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .crop-tag {
+            background: #E8F5E9;
+            color: #2E7D32;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .symptoms-list {
+            margin: 15px 0;
+        }
+
+        .symptoms-list h5 {
+            color: #FF5722;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .symptoms-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .symptoms-list li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .symptoms-list li::before {
+            content: "•";
+            color: #FF5722;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .treatment-section {
+            background: #E8F5E9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .treatment-section h5 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .treatment-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .treatment-option {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            border: 1px solid #4CAF50;
+        }
+
+        .prevention-tips {
+            background: #FFF3E0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #FFB74D;
+        }
+
+        .prevention-tips h5 {
+            color: #E65100;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .prevention-tips ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .prevention-tips li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .prevention-tips li::before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .disease-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(45deg, #2196F3, #42A5F5);
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: linear-gradient(45deg, #1976D2, #1E88E5);
+            transform: translateY(-2px);
+        }
+
+        .action-btn.secondary {
+            background: white;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .action-btn.secondary:hover {
+            background: #f5f5f5;
+            border-color: #4CAF50;
+        }
+
+        .recent-updates {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .recent-updates h3 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .update-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .update-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background: #F5F5F5;
+            border-radius: 10px;
+        }
+
+        .update-time {
+            color: #666;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+
+        .update-content h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .update-content p {
+            color: #666;
+            margin: 0;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .loading-content i {
+            font-size: 3em;
+            color: #2196F3;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .no-diseases {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .no-diseases i {
+            font-size: 4em;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .ai-analysis {
+            background: linear-gradient(135deg, #E3F2FD, #F3E5F5);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            border-left: 5px solid #2196F3;
+        }
+
+        .ai-analysis h3 {
+            color: #1565C0;
+            margin-bottom: 15px;
+        }
+
+        .ai-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .ai-feature {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-feature i {
+            font-size: 2.5em;
+            color: #2196F3;
+            margin-bottom: 15px;
+        }
+
+        .ai-feature h4 {
+            color: #1565C0;
+            margin-bottom: 10px;
+        }
+
+        .weather-integration {
+            background: linear-gradient(135deg, #E8F5E9, #F1F8E9);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .weather-integration h3 {
+            color: #2E7D32;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .weather-disease-correlation {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .correlation-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .correlation-card i {
+            font-size: 2.5em;
+            color: #FF9800;
+            margin-bottom: 15px;
+        }
+
+        .correlation-card h4 {
+            color: #F57C00;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="tips.html">Safety Tips</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="quiz.html">Cyber Quiz</a></li>
+                <li><a href="password-generator.html">Password Generator</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="weather.html">Weather Forecast</a></li>
+                <li><a href="crop-market.html">Crop Market</a></li>
+                <li><a href="digilocker.html">Digi Locker</a></li>
+                <li><a href="fertilizer-scheduler.html">Fertilizer Scheduler</a></li>
+                <li><a href="crop-diseases.html" class="active">Crop Diseases</a></li>
+                <li><a href="data-usage.html">Data Usage</a></li>
+            </ul>
+        </nav>
+
+        <header class="header">
+            <i class="fas fa-tractor logo"></i>
+            <h1>Crop Diseases Updater</h1>
+            <p>Real-time disease monitoring and AI-powered diagnosis</p>
+        </header>
+
+        <div class="diseases-container">
+            <!-- Alert Section -->
+            <div class="alert-section">
+                <h3><i class="fas fa-exclamation-triangle"></i> Active Disease Alerts</h3>
+                <div class="alert-list" id="alert-list">
+                    <!-- Alerts will be populated here -->
+                </div>
+            </div>
+
+            <!-- Disease Search -->
+            <div class="disease-search">
+                <h3><i class="fas fa-search"></i> Search Crop Diseases</h3>
+                <div class="search-filters">
+                    <div class="filter-group">
+                        <label><i class="fas fa-seedling"></i> Crop Type</label>
+                        <select class="filter-control" id="filter-crop">
+                            <option value="">All Crops</option>
+                            <option value="wheat">Wheat</option>
+                            <option value="rice">Rice</option>
+                            <option value="cotton">Cotton</option>
+                            <option value="sugarcane">Sugarcane</option>
+                            <option value="pulses">Pulses</option>
+                            <option value="vegetables">Vegetables</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label><i class="fas fa-thermometer-half"></i> Disease Type</label>
+                        <select class="filter-control" id="filter-type">
+                            <option value="">All Types</option>
+                            <option value="fungal">Fungal</option>
+                            <option value="bacterial">Bacterial</option>
+                            <option value="viral">Viral</option>
+                            <option value="pest">Pest Related</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label><i class="fas fa-map-marker-alt"></i> Region</label>
+                        <select class="filter-control" id="filter-region">
+                            <option value="">All Regions</option>
+                            <option value="punjab">Punjab</option>
+                            <option value="Haryana">Haryana</option>
+                            <option value="up">Uttar Pradesh</option>
+                            <option value="rajasthan">Rajasthan</option>
+                            <option value="gujarat">Gujarat</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="searchDiseases()">
+                    <i class="fas fa-search"></i> Search Diseases
+                </button>
+            </div>
+
+            <!-- Symptom Checker with AI -->
+            <div class="symptom-checker">
+                <h3><i class="fas fa-robot"></i> AI-Powered Symptom Analysis</h3>
+                <p>Describe your crop symptoms and get instant diagnosis with treatment recommendations</p>
+
+                <div class="symptom-input">
+                    <label>Describe the symptoms you observe:</label>
+                    <textarea id="symptom-description"
+                        placeholder="e.g., Yellow spots on leaves, wilting plants, unusual growth patterns..."></textarea>
+                </div>
+
+                <div class="image-upload">
+                    <div class="upload-area" onclick="document.getElementById('disease-image').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Upload crop images for better analysis</p>
+                        <p style="font-size: 12px; color: #666;">Click to upload or drag and drop</p>
+                    </div>
+                    <input type="file" id="disease-image" accept="image/*" style="display: none;"
+                        onchange="handleImageUpload(this)">
+                </div>
+
+                <button class="btn btn-primary" onclick="analyzeSymptoms()">
+                    <i class="fas fa-brain"></i> Analyze with AI
+                </button>
+            </div>
+
+            <!-- Disease Cards -->
+            <div class="disease-cards" id="disease-cards">
+                <!-- Sample disease cards -->
+                <div class="disease-card">
+                    <div class="disease-header critical">
+                        <div class="severity-badge">CRITICAL</div>
+                        <div class="disease-name">Wheat Rust</div>
+                        <div class="disease-scientific">Puccinia triticina</div>
+                    </div>
+                    <div class="disease-content">
+                        <div class="affected-crops">
+                            <span class="crop-tag">Wheat</span>
+                            <span class="crop-tag">Barley</span>
+                        </div>
+                        <div class="symptoms-list">
+                            <h5><i class="fas fa-exclamation-triangle"></i> Symptoms</h5>
+                            <ul>
+                                <li>Orange-brown pustules on leaves</li>
+                                <li>Yellowing of leaf tissue</li>
+                                <li>Premature leaf death</li>
+                                <li>Reduced grain filling</li>
+                            </ul>
+                        </div>
+                        <div class="treatment-section">
+                            <h5><i class="fas fa-medkit"></i> Treatment Options</h5>
+                            <div class="treatment-options">
+                                <span class="treatment-option">Propiconazole</span>
+                                <span class="treatment-option">Tebuconazole</span>
+                                <span class="treatment-option">Azoxystrobin</span>
+                            </div>
+                        </div>
+                        <div class="prevention-tips">
+                            <h5><i class="fas fa-shield-alt"></i> Prevention Tips</h5>
+                            <ul>
+                                <li>Use resistant varieties</li>
+                                <li>Practice crop rotation</li>
+                                <li>Monitor weather conditions</li>
+                                <li>Apply preventive fungicides</li>
+                            </ul>
+                        </div>
+                        <div class="disease-actions">
+                            <button class="action-btn primary" onclick="getTreatmentDetails('wheat-rust')">
+                                <i class="fas fa-info-circle"></i> Get Treatment
+                            </button>
+                            <button class="action-btn secondary" onclick="shareDiseaseInfo('wheat-rust')">
+                                <i class="fas fa-share"></i> Share Info
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="disease-card">
+                    <div class="disease-header warning">
+                        <div class="severity-badge">MODERATE</div>
+                        <div class="disease-name">Rice Blast</div>
+                        <div class="disease-scientific">Magnaporthe oryzae</div>
+                    </div>
+                    <div class="disease-content">
+                        <div class="affected-crops">
+                            <span class="crop-tag">Rice</span>
+                            <span class="crop-tag">Wheat</span>
+                        </div>
+                        <div class="symptoms-list">
+                            <h5><i class="fas fa-exclamation-triangle"></i> Symptoms</h5>
+                            <ul>
+                                <li>Diamond-shaped lesions on leaves</li>
+                                <li>Grey centers with dark borders</li>
+                                <li>Neck rot in severe cases</li>
+                                <li>Reduced yield</li>
+                            </ul>
+                        </div>
+                        <div class="treatment-section">
+                            <h5><i class="fas fa-medkit"></i> Treatment Options</h5>
+                            <div class="treatment-options">
+                                <span class="treatment-option">Tricyclazole</span>
+                                <span class="treatment-option">Isoprothiolane</span>
+                                <span class="treatment-option">Propiconazole</span>
+                            </div>
+                        </div>
+                        <div class="prevention-tips">
+                            <h5><i class="fas fa-shield-alt"></i> Prevention Tips</h5>
+                            <ul>
+                                <li>Avoid excessive nitrogen</li>
+                                <li>Maintain proper spacing</li>
+                                <li>Monitor humidity levels</li>
+                                <li>Use resistant varieties</li>
+                            </ul>
+                        </div>
+                        <div class="disease-actions">
+                            <button class="action-btn primary" onclick="getTreatmentDetails('rice-blast')">
+                                <i class="fas fa-info-circle"></i> Get Treatment
+                            </button>
+                            <button class="action-btn secondary" onclick="shareDiseaseInfo('rice-blast')">
+                                <i class="fas fa-share"></i> Share Info
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="disease-card">
+                    <div class="disease-header low">
+                        <div class="severity-badge">LOW</div>
+                        <div class="disease-name">Cotton Bollworm</div>
+                        <div class="disease-scientific">Helicoverpa armigera</div>
+                    </div>
+                    <div class="disease-content">
+                        <div class="affected-crops">
+                            <span class="crop-tag">Cotton</span>
+                            <span class="crop-tag">Tomato</span>
+                            <span class="crop-tag">Chickpea</span>
+                        </div>
+                        <div class="symptoms-list">
+                            <h5><i class="fas fa-exclamation-triangle"></i> Symptoms</h5>
+                            <ul>
+                                <li>Holes in flowers and bolls</li>
+                                <li>Frass (insect droppings) present</li>
+                                <li>Damaged reproductive parts</li>
+                                <li>Yield reduction</li>
+                            </ul>
+                        </div>
+                        <div class="treatment-section">
+                            <h5><i class="fas fa-medkit"></i> Treatment Options</h5>
+                            <div class="treatment-options">
+                                <span class="treatment-option">Bt Cotton</span>
+                                <span class="treatment-option">Nuclear polyhedrosis virus</span>
+                                <span class="treatment-option">Pheromone traps</span>
+                            </div>
+                        </div>
+                        <div class="prevention-tips">
+                            <h5><i class="fas fa-shield-alt"></i> Prevention Tips</h5>
+                            <ul>
+                                <li>Use Bt cotton varieties</li>
+                                <li>Install pheromone traps</li>
+                                <li>Monitor crop regularly</li>
+                                <li>Practice crop rotation</li>
+                            </ul>
+                        </div>
+                        <div class="disease-actions">
+                            <button class="action-btn primary" onclick="getTreatmentDetails('cotton-bollworm')">
+                                <i class="fas fa-info-circle"></i> Get Treatment
+                            </button>
+                            <button class="action-btn secondary" onclick="shareDiseaseInfo('cotton-bollworm')">
+                                <i class="fas fa-share"></i> Share Info
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Analysis Section -->
+            <div class="ai-analysis">
+                <h3><i class="fas fa-brain"></i> AI-Powered Disease Analysis</h3>
+                <p>Our advanced AI system analyzes crop images and symptoms to provide accurate disease identification
+                </p>
+
+                <div class="ai-features">
+                    <div class="ai-feature">
+                        <i class="fas fa-eye"></i>
+                        <h4>Image Recognition</h4>
+                        <p>Upload crop images for instant visual analysis</p>
+                    </div>
+                    <div class="ai-feature">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Pattern Recognition</h4>
+                        <p>Identifies disease patterns from symptoms description</p>
+                    </div>
+                    <div class="ai-feature">
+                        <i class="fas fa-database"></i>
+                        <h4>Large Database</h4>
+                        <p>Access to thousands of disease patterns and treatments</p>
+                    </div>
+                    <div class="ai-feature">
+                        <i class="fas fa-clock"></i>
+                        <h4>Instant Results</h4>
+                        <p>Get analysis results within seconds</p>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="startAIAnalysis()">
+                    <i class="fas fa-play"></i> Start AI Analysis
+                </button>
+            </div>
+
+            <!-- Weather Integration -->
+            <div class="weather-integration">
+                <h3><i class="fas fa-cloud-sun"></i> Weather-Based Disease Forecasting</h3>
+                <p>Weather conditions significantly affect disease development. Get weather-based disease alerts.</p>
+
+                <div class="weather-disease-correlation">
+                    <div class="correlation-card">
+                        <i class="fas fa-thermometer-half"></i>
+                        <h4>Temperature</h4>
+                        <p>High humidity + warm temperature = Fungal diseases</p>
+                    </div>
+                    <div class="correlation-card">
+                        <i class="fas fa-tint"></i>
+                        <h4>Humidity</h4>
+                        <p>Above 80% humidity favors bacterial diseases</p>
+                    </div>
+                    <div class="correlation-card">
+                        <i class="fas fa-wind"></i>
+                        <h4>Wind Speed</h4>
+                        <p>Strong winds spread viral diseases</p>
+                    </div>
+                    <div class="correlation-card">
+                        <i class="fas fa-cloud-rain"></i>
+                        <h4>Rainfall</h4>
+                        <p>Excessive rain promotes water-borne diseases</p>
+                    </div>
+                </div>
+
+                <button class="btn btn-secondary" onclick="getWeatherBasedAlerts()">
+                    <i class="fas fa-bell"></i> Get Weather Alerts
+                </button>
+            </div>
+
+            <!-- Recent Updates -->
+            <div class="recent-updates">
+                <h3><i class="fas fa-clock"></i> Recent Disease Updates</h3>
+                <div class="update-list" id="update-list">
+                    <div class="update-item">
+                        <div class="update-time">2 hours ago</div>
+                        <div class="update-content">
+                            <h4>New fungal disease detected in wheat crops</h4>
+                            <p>Alert issued for Punjab and Haryana regions</p>
+                        </div>
+                    </div>
+                    <div class="update-item">
+                        <div class="update-time">1 day ago</div>
+                        <div class="update-content">
+                            <h4>Bacterial blight spreading in rice fields</h4>
+                            <p>Moderate severity reported in Uttar Pradesh</p>
+                        </div>
+                    </div>
+                    <div class="update-item">
+                        <div class="update-time">3 days ago</div>
+                        <div class="update-content">
+                            <h4>Pest infestation controlled in cotton crops</h4>
+                            <p>Treatment measures successful in Haryana</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Cyber Kisan. Empowering Farmers Digitally.</p>
+        </footer>
+    </div>
+
+    <script src="chatbot.js"></script>
+    <script>
+        // Disease Management Functions
+        let currentDiseases = [];
+        let aiAnalysisResults = [];
+
+        function searchDiseases() {
+            const crop = document.getElementById('filter-crop').value;
+            const type = document.getElementById('filter-type').value;
+            const region = document.getElementById('filter-region').value;
+
+            showLoading(true);
+
+            // Simulate API call
+            setTimeout(() => {
+                const results = filterDiseases(crop, type, region);
+                displayDiseases(results);
+                showLoading(false);
+            }, 1500);
+        }
+
+        function filterDiseases(crop, type, region) {
+            // Demo filtering logic
+            return currentDiseases.filter(disease => {
+                let matches = true;
+
+                if (crop && !disease.crops.includes(crop)) matches = false;
+                if (type && disease.type !== type) matches = false;
+                if (region && !disease.regions.includes(region)) matches = false;
+
+                return matches;
+            });
+        }
+
+        function displayDiseases(diseases) {
+            const container = document.getElementById('disease-cards');
+            const noResults = document.getElementById('no-results');
+
+            if (diseases.length === 0) {
+                container.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            noResults.style.display = 'none';
+            container.innerHTML = '';
+
+            diseases.forEach(disease => {
+                const card = createDiseaseCard(disease);
+                container.appendChild(card);
+            });
+        }
+
+        function createDiseaseCard(disease) {
+            const card = document.createElement('div');
+            card.className = 'disease-card';
+            card.innerHTML = `
+                <div class="disease-header ${disease.severity}">
+                    <div class="severity-badge">${disease.severity.toUpperCase()}</div>
+                    <div class="disease-name">${disease.name}</div>
+                    <div class="disease-scientific">${disease.scientific}</div>
+                </div>
+                <div class="disease-content">
+                    <div class="affected-crops">
+                        ${disease.crops.map(crop => `<span class="crop-tag">${crop}</span>`).join('')}
+                    </div>
+                    <div class="symptoms-list">
+                        <h5><i class="fas fa-exclamation-triangle"></i> Symptoms</h5>
+                        <ul>
+                            ${disease.symptoms.map(symptom => `<li>${symptom}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="treatment-section">
+                        <h5><i class="fas fa-medkit"></i> Treatment Options</h5>
+                        <div class="treatment-options">
+                            ${disease.treatments.map(treatment => `<span class="treatment-option">${treatment}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="prevention-tips">
+                        <h5><i class="fas fa-shield-alt"></i> Prevention Tips</h5>
+                        <ul>
+                            ${disease.prevention.map(tip => `<li>${tip}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="disease-actions">
+                        <button class="action-btn primary" onclick="getTreatmentDetails('${disease.id}')">
+                            <i class="fas fa-info-circle"></i> Get Treatment
+                        </button>
+                        <button class="action-btn secondary" onclick="shareDiseaseInfo('${disease.id}')">
+                            <i class="fas fa-share"></i> Share Info
+                        </button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function analyzeSymptoms() {
+            const symptoms = document.getElementById('symptom-description').value.trim();
+
+            if (!symptoms) {
+                alert('Please describe the symptoms first');
+                return;
+            }
+
+            showLoading(true);
+
+            // Simulate AI analysis
+            setTimeout(() => {
+                const analysis = performAIAnalysis(symptoms);
+                displayAIResults(analysis);
+                showLoading(false);
+            }, 2000);
+        }
+
+        function performAIAnalysis(symptoms) {
+            // Demo AI analysis
+            const possibleDiseases = [
+                {
+                    name: 'Powdery Mildew',
+                    confidence: 85,
+                    symptoms: ['white powdery coating', 'leaf curling', 'stunted growth'],
+                    treatment: 'Apply sulfur-based fungicides',
+                    prevention: 'Improve air circulation and reduce humidity'
+                },
+                {
+                    name: 'Leaf Spot',
+                    confidence: 72,
+                    symptoms: ['brown spots', 'yellow halos', 'premature leaf drop'],
+                    treatment: 'Use copper-based fungicides',
+                    prevention: 'Avoid overhead watering and improve drainage'
+                }
+            ];
+
+            return possibleDiseases;
+        }
+
+        function displayAIResults(results) {
+            const container = document.getElementById('ai-results');
+            container.innerHTML = '<h4>AI Analysis Results:</h4>';
+
+            results.forEach((result, index) => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'ai-result';
+                resultDiv.innerHTML = `
+                    <h5>${result.name} (Confidence: ${result.confidence}%)</h5>
+                    <p><strong>Key Symptoms:</strong> ${result.symptoms.join(', ')}</p>
+                    <p><strong>Treatment:</strong> ${result.treatment}</p>
+                    <p><strong>Prevention:</strong> ${result.prevention}</p>
+                `;
+                container.appendChild(resultDiv);
+            });
+        }
+
+        function handleImageUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    // Process image for AI analysis
+                    console.log('Image uploaded for analysis');
+                    alert('Image uploaded successfully! AI analysis will begin shortly.');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function getTreatmentDetails(diseaseId) {
+            const treatment = getTreatmentById(diseaseId);
+            alert(`Treatment Details:\n\n${treatment.name}\n\n${treatment.description}\n\nDosage: ${treatment.dosage}\n\nApplication Method: ${treatment.method}\n\nPrecautions: ${treatment.precautions}`);
+        }
+
+        function getTreatmentById(id) {
+            // Demo treatment data
+            return {
+                name: 'Sample Treatment',
+                description: 'Apply recommended fungicide',
+                dosage: 'As per label instructions',
+                method: 'Spray application',
+                precautions: 'Wear protective equipment'
+            };
+        }
+
+        function shareDiseaseInfo(diseaseId) {
+            const disease = getDiseaseById(diseaseId);
+            const shareText = `Crop Disease Alert: ${disease.name}\nSymptoms: ${disease.symptoms.join(', ')}\nTreatment: ${disease.treatments.join(', ')}\n\nShared via Cyber Kissan`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Crop Disease Information',
+                    text: shareText
+                });
+            } else {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Disease information copied to clipboard!');
+                });
+            }
+        }
+
+        function getDiseaseById(id) {
+            // Demo function - return sample disease
+            return {
+                name: 'Sample Disease',
+                symptoms: ['symptom1', 'symptom2'],
+                treatments: ['treatment1', 'treatment2']
+            };
+        }
+
+        function getWeatherBasedAlerts() {
+            // Demo weather-based alerts
+            const alerts = [
+                {
+                    type: 'warning',
+                    message: 'High humidity expected - Watch for fungal diseases',
+                    crops: ['rice', 'wheat'],
+                    regions: ['punjab', 'haryana']
+                },
+                {
+                    type: 'info',
+                    message: 'Low temperature forecast - Reduced disease activity',
+                    crops: ['all'],
+                    regions: ['all']
+                }
+            ];
+
+            displayWeatherAlerts(alerts);
+        }
+
+        function displayWeatherAlerts(alerts) {
+            const container = document.getElementById('alert-list');
+            container.innerHTML = '';
+
+            alerts.forEach(alert => {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert-item ${alert.type}`;
+                alertDiv.innerHTML = `
+                    <div class="alert-location">${alert.regions.join(', ')}</div>
+                    <div class="alert-disease">Weather Alert</div>
+                    <div class="alert-crop">${alert.crops.join(', ')}</div>
+                    <div class="alert-date">Just now</div>
+                `;
+                container.appendChild(alertDiv);
+            });
+        }
+
+        function showLoading(show) {
+            const overlay = document.getElementById('loading-overlay');
+            overlay.style.display = show ? 'flex' : 'none';
+        }
+
+        function startAIAnalysis() {
+            showLoading(true);
+
+            // Simulate AI analysis
+            setTimeout(() => {
+                const results = performAIAnalysis('Sample crop image');
+                displayAIResults(results);
+                showLoading(false);
+            }, 3000);
+        }
+
+        // Initialize page
+        window.addEventListener('load', function () {
+            // Load sample alerts
+            loadSampleAlerts();
+            generateSampleDiseases();
+        });
+
+        function loadSampleAlerts() {
+            const alerts = [
+                {
+                    location: 'Punjab',
+                    disease: 'Wheat Rust',
+                    crop: 'Wheat',
+                    severity: 'critical',
+                    date: '2 hours ago'
+                },
+                {
+                    location: 'Haryana',
+                    disease: 'Rice Blast',
+                    crop: 'Rice',
+                    severity: 'warning',
+                    date: '1 day ago'
+                },
+                {
+                    location: 'Uttar Pradesh',
+                    disease: 'Cotton Bollworm',
+                    crop: 'Cotton',
+                    severity: 'low',
+                    date: '3 days ago'
+                }
+            ];
+
+            const container = document.getElementById('alert-list');
+            container.innerHTML = '';
+
+            alerts.forEach(alert => {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert-item ${alert.severity}`;
+                alertDiv.innerHTML = `
+                    <div class="alert-location">${alert.location}</div>
+                    <div class="alert-disease">${alert.disease}</div>
+                    <div class="alert-crop">${alert.crop}</div>
+                    <div class="alert-date">${alert.date}</div>
+                `;
+                container.appendChild(alertDiv);
+            });
+        }
+
+        function generateSampleDiseases() {
+            currentDiseases = [
+                {
+                    id: 'wheat-rust',
+                    name: 'Wheat Rust',
+                    scientific: 'Puccinia triticina',
+                    severity: 'critical',
+                    crops: ['wheat', 'barley'],
+                    type: 'fungal',
+                    regions: ['punjab', 'haryana'],
+                    symptoms: ['Orange-brown pustules on leaves', 'Yellowing of leaf tissue', 'Premature leaf death', 'Reduced grain filling'],
+                    treatments: ['Propiconazole', 'Tebuconazole', 'Azoxystrobin'],
+                    prevention: ['Use resistant varieties', 'Practice crop rotation', 'Monitor weather conditions', 'Apply preventive fungicides']
+                },
+                {
+                    id: 'rice-blast',
+                    name: 'Rice Blast',
+                    scientific: 'Magnaporthe oryzae',
+                    severity: 'warning',
+                    crops: ['rice'],
+                    type: 'fungal',
+                    regions: ['Haryana', 'up'],
+                    symptoms: ['Diamond-shaped lesions on leaves', 'Grey centers with dark borders', 'Neck rot in severe cases', 'Reduced yield'],
+                    treatments: ['Tricyclazole', 'Isoprothiolane', 'Propiconazole'],
+                    prevention: ['Avoid excessive nitrogen', 'Maintain proper spacing', 'Monitor humidity levels', 'Use resistant varieties']
+                },
+                {
+                    id: 'cotton-bollworm',
+                    name: 'Cotton Bollworm',
+                    scientific: 'Helicoverpa armigera',
+                    severity: 'low',
+                    crops: ['cotton', 'tomato', 'chickpea'],
+                    type: 'pest',
+                    regions: ['gujarat', 'Haryana'],
+                    symptoms: ['Holes in flowers and bolls', 'Frass (insect droppings) present', 'Damaged reproductive parts', 'Yield reduction'],
+                    treatments: ['Bt Cotton', 'Nuclear polyhedrosis virus', 'Pheromone traps'],
+                    prevention: ['Use Bt cotton varieties', 'Install pheromone traps', 'Monitor crop regularly', 'Practice crop rotation']
+                }
+            ];
+        }
+    </script>
+</body>
+
+</html>

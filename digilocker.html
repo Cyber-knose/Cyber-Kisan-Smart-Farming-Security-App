@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digi Locker - Cyber Kissan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="cyber-kissan-common.css">
+    <style>
+        .digilocker-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .digilocker-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .digilocker-integration {
+            background: linear-gradient(135deg, #E8F5E9, #F1F8E9);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 2px solid #4CAF50;
+        }
+
+        .digilocker-integration i {
+            font-size: 4em;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .digilocker-integration h2 {
+            color: #2E7D32;
+            margin-bottom: 15px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .benefit-card i {
+            font-size: 3em;
+            color: #2196F3;
+            margin-bottom: 15px;
+        }
+
+        .benefit-card h3 {
+            color: #1565C0;
+            margin-bottom: 10px;
+        }
+
+        .document-types {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .document-types h3 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .document-item {
+            background: #F5F5F5;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .document-item:hover {
+            background: #E3F2FD;
+            transform: scale(1.05);
+        }
+
+        .document-item i {
+            font-size: 2.5em;
+            color: #FF9800;
+            margin-bottom: 10px;
+        }
+
+        .document-item h4 {
+            color: #F57C00;
+            margin-bottom: 5px;
+        }
+
+        .login-section {
+            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            border-left: 5px solid #FFB74D;
+        }
+
+        .login-section h3 {
+            color: #E65100;
+            margin-bottom: 15px;
+        }
+
+        .digilocker-login {
+            background: linear-gradient(45deg, #2196F3, #42A5F5);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .digilocker-login:hover {
+            background: linear-gradient(45deg, #1976D2, #1E88E5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+        }
+
+        .security-features {
+            background: #E8F5E9;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .security-features h3 {
+            color: #2E7D32;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .security-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .security-features li {
+            margin-bottom: 10px;
+            padding: 8px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .security-features li::before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 18px;
+            min-width: 20px;
+        }
+
+        .step-guide {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-guide h3 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #F5F5F5;
+            border-radius: 10px;
+        }
+
+        .step-number {
+            background: #4CAF50;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            color: #2E7D32;
+            margin-bottom: 8px;
+        }
+
+        .demo-section {
+            background: linear-gradient(135deg, #E3F2FD, #F3E5F5);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            border: 2px solid #E1BEE7;
+        }
+
+        .demo-section h3 {
+            color: #6A1B9A;
+            margin-bottom: 20px;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .demo-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-card h4 {
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+
+        .demo-download {
+            background: linear-gradient(45deg, #FF9800, #F57C00);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .demo-download:hover {
+            background: linear-gradient(45deg, #F57C00, #EF6C00);
+            transform: translateY(-2px);
+        }
+
+        .comparison-table {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            overflow-x: auto;
+        }
+
+        .comparison-table h3 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .comparison-table th {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .comparison-table tr:hover {
+            background: #f1f1f1;
+        }
+
+        .feature-tag {
+            background: #4CAF50;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .security-badge {
+            background: #FF5722;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="tips.html">Safety Tips</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="quiz.html">Cyber Quiz</a></li>
+                <li><a href="password-generator.html">Password Generator</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="weather.html">Weather Forecast</a></li>
+                <li><a href="crop-market.html">Crop Market</a></li>
+                <li><a href="digilocker.html" class="active">Digi Locker</a></li>
+                <li><a href="fertilizer-scheduler.html">Fertilizer Scheduler</a></li>
+                <li><a href="crop-diseases.html">Crop Diseases</a></li>
+                <li><a href="data-usage.html">Data Usage</a></li>
+            </ul>
+        </nav>
+
+        <header class="header">
+            <i class="fas fa-tractor logo"></i>
+            <h1>Digi Locker Integration</h1>
+            <p>Secure document storage for farmers</p>
+        </header>
+
+        <div class="digilocker-container">
+            <div class="digilocker-integration">
+                <i class="fas fa-lock"></i>
+                <h2>Secure Document Storage</h2>
+                <p>Access your government documents safely and conveniently</p>
+                <button class="digilocker-login" onclick="loginToDigiLocker()">
+                    <i class="fas fa-sign-in-alt"></i> Login with Digi Locker
+                </button>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>100% Secure</h3>
+                    <p>Government-approved secure document storage with advanced encryption</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-cloud"></i>
+                    <h3>Cloud Storage</h3>
+                    <p>Access your documents anytime, anywhere from any device</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-share"></i>
+                    <h3>Easy Sharing</h3>
+                    <p>Share documents securely with government agencies and officials</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile Access</h3>
+                    <p>Access documents on your smartphone with dedicated mobile app</p>
+                </div>
+            </div>
+
+            <div class="document-types">
+                <h3><i class="fas fa-file-alt"></i> Supported Document Types</h3>
+                <div class="document-grid">
+                    <div class="document-item" onclick="showDocumentDetails('aadhaar')">
+                        <i class="fas fa-id-card"></i>
+                        <h4>Aadhaar Card</h4>
+                        <p>Digital Aadhaar</p>
+                    </div>
+                    <div class="document-item" onclick="showDocumentDetails('pan')">
+                        <i class="fas fa-credit-card"></i>
+                        <h4>PAN Card</h4>
+                        <p>Income Tax PAN</p>
+                    </div>
+                    <div class="document-item" onclick="showDocumentDetails('driving-license')">
+                        <i class="fas fa-car"></i>
+                        <h4>Driving License</h4>
+                        <p>License Documents</p>
+                    </div>
+                    <div class="document-item" onclick="showDocumentDetails('voter-id')">
+                        <i class="fas fa-vote-yea"></i>
+                        <h4>Voter ID</h4>
+                        <p>Election Card</p>
+                    </div>
+                    <div class="document-item" onclick="showDocumentDetails('marksheet')">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h4>Mark Sheets</h4>
+                        <p>Educational Records</p>
+                    </div>
+                    <div class="document-item" onclick="showDocumentDetails('land-records')">
+                        <i class="fas fa-map"></i>
+                        <h4>Land Records</h4>
+                        <p>Property Documents</p>
+                    </div>
+                    <div class="document-item" onclick="showDocumentDetails('insurance')">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Insurance</h4>
+                        <p>Policy Documents</p>
+                    </div>
+                    <div class="document-item" onclick="showDocumentDetails('bank-statement')">
+                        <i class="fas fa-university"></i>
+                        <h4>Bank Statements</h4>
+                        <p>Financial Records</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-guide">
+                <h3>How to Use Digi Locker Integration</h3>
+
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Click Login Button</h4>
+                        <p>Click the "Login with Digi Locker" button above. You'll be redirected to secure Digi Locker
+                            login page.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Enter Your Credentials</h4>
+                        <p>Use your Aadhaar number or mobile number registered with Digi Locker to login securely.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Access Your Documents</h4>
+                        <p>Once logged in, you can view, download, and share your government-issued documents securely.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Share with Government</h4>
+                        <p>Use documents directly for government schemes, subsidies, and official applications without
+                            physical copies.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="security-features">
+                <h3><i class="fas fa-shield-alt"></i> Security Features</h3>
+                <ul>
+                    <li><strong>256-bit Encryption:</strong> All documents are encrypted with military-grade security
+                    </li>
+                    <li><strong>Two-Factor Authentication:</strong> Extra security layer for account access</li>
+                    <li><strong>Biometric Login:</strong> Use fingerprint or face recognition for secure access</li>
+                    <li><strong>Audit Trail:</strong> Complete log of all document access and sharing activities</li>
+                    <li><strong>Time-Limited Sharing:</strong> Documents shared with expiry dates for enhanced security
+                    </li>
+                    <li><strong>Government Backed:</strong> Backed by Ministry of Electronics and IT, Government of
+                        India</li>
+                </ul>
+            </div>
+
+            <div class="demo-section">
+                <h3>Demo Documents (For Testing)</h3>
+                <p>Sample documents to demonstrate the functionality:</p>
+
+                <div class="demo-grid">
+                    <div class="demo-card">
+                        <h4>Sample Aadhaar</h4>
+                        <p>Demo Aadhaar card for testing</p>
+                        <button class="demo-download" onclick="downloadDemo('aadhaar')">
+                            <i class="fas fa-download"></i> Download Demo
+                        </button>
+                    </div>
+                    <div class="demo-card">
+                        <h4>Sample Land Record</h4>
+                        <p>Demo land ownership document</p>
+                        <button class="demo-download" onclick="downloadDemo('land-record')">
+                            <i class="fas fa-download"></i> Download Demo
+                        </button>
+                    </div>
+                    <div class="demo-card">
+                        <h4>Sample Mark Sheet</h4>
+                        <p>Demo educational certificate</p>
+                        <button class="demo-download" onclick="downloadDemo('marksheet')">
+                            <i class="fas fa-download"></i> Download Demo
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-table">
+                <h3>Digi Locker vs Traditional Documents</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Digi Locker</th>
+                            <th>Traditional Documents</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Security</td>
+                            <td><span class="feature-tag">256-bit Encryption</span></td>
+                            <td>Physical - Risk of loss/theft</td>
+                        </tr>
+                        <tr>
+                            <td>Access</td>
+                            <td><span class="feature-tag">24/7 Online</span></td>
+                            <td>Physical presence required</td>
+                        </tr>
+                        <tr>
+                            <td>Sharing</td>
+                            <td><span class="feature-tag">Secure Digital</span></td>
+                            <td>Physical copies - Risk of misuse</td>
+                        </tr>
+                        <tr>
+                            <td>Storage</td>
+                            <td><span class="feature-tag">Cloud Backup</span></td>
+                            <td>Physical storage - Risk of damage</td>
+                        </tr>
+                        <tr>
+                            <td>Validity</td>
+                            <td><span class="security-badge">Government Approved</span></td>
+                            <td>Manual verification needed</td>
+                        </tr>
+                        <tr>
+                            <td>Cost</td>
+                            <td><span class="feature-tag">FREE</span></td>
+                            <td>Printing, photocopy costs</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="login-section">
+                <h3>Ready to Access Your Documents?</h3>
+                <p>Join millions of Indians who trust Digi Locker for secure document storage</p>
+                <button class="digilocker-login" onclick="loginToDigiLocker()">
+                    <i class="fas fa-sign-in-alt"></i> Login with Digi Locker Now
+                </button>
+                <p style="margin-top: 15px; font-size: 14px; color: #666;">
+                    <i class="fas fa-info-circle"></i> You'll be redirected to official Digi Locker website for secure
+                    login
+                </p>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Cyber Kisan. Empowering Farmers Digitally.</p>
+        </footer>
+    </div>
+
+    <script src="chatbot.js"></script>
+    <script>
+        // Digi Locker Functions
+        function loginToDigiLocker() {
+            // Simulate Digi Locker login
+            alert('Redirecting to Digi Locker...\n\nIn real implementation, this would redirect to:\nhttps://digilocker.gov.in/\n\nFor demo purposes, showing sample functionality.');
+
+            // Show demo dashboard
+            showDemoDashboard();
+        }
+
+        function showDocumentDetails(docType) {
+            const details = {
+                'aadhaar': {
+                    title: 'Aadhaar Card',
+                    description: 'Your digital Aadhaar card issued by UIDAI',
+                    benefits: ['Valid for government schemes', 'Accepted as ID proof', 'Secure digital format']
+                },
+                'land-records': {
+                    title: 'Land Records',
+                    description: 'Digital land ownership documents',
+                    benefits: ['For subsidy applications', 'Loan processing', 'Legal documentation']
+                }
+            };
+
+            const detail = details[docType] || {
+                title: 'Document',
+                description: 'Government issued document',
+                benefits: ['Digital format', 'Secure storage', 'Easy sharing']
+            };
+
+            alert(`${detail.title}\n\n${detail.description}\n\nBenefits:\n${detail.benefits.map(b => '• ' + b).join('\n')}`);
+        }
+
+        function downloadDemo(docType) {
+            showLoading(true);
+
+            setTimeout(() => {
+                showLoading(false);
+                alert(`✅ Demo ${docType} document downloaded successfully!\n\nThis is a sample document for demonstration purposes.`);
+            }, 1500);
+        }
+
+        function showDemoDashboard() {
+            alert(`🎉 Welcome to Digi Locker Dashboard!\n\nDemo Features Available:\n• View Sample Documents\n• Download Demo Files\n• Test Document Sharing\n• Explore Security Features\n\nNote: This is a demonstration. Real Digi Locker integration requires official API access.`);
+        }
+
+        function showLoading(show) {
+            // Simple loading simulation
+            if (show) {
+                console.log('Loading...');
+            } else {
+                console.log('Loading complete');
+            }
+        }
+    </script>
+</body>
+
+</html>
