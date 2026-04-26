@@ -66,6 +66,15 @@ This app spreads awareness and guides users on how to stay safe.
 
 ---
 
+
+## 🧭 App Workflow / Architecture
+
+This blueprint illustrates the basic processing and workflow of the Cyber Kisan application.
+
+<p align="center">
+  <img src="Blue Print.jpeg" alt="Cyber Kisan Workflow" width="100%" >
+</p>
+
 ## 🎯 Objective
 To bridge the gap between **agriculture 🌾** and **technology 💻**, making farmers more **efficient, independent, and digitally secure**.
 
@@ -112,15 +121,3 @@ MIT License 📄
 ## 📖 About the Project
 Cyber Kisan is an innovative all-in-one application...
 
----
-
-## 🧭 App Workflow / Architecture
-
-This blueprint illustrates the basic processing and workflow of the Cyber Kisan application.
-
-<p align="center">
-  <img src="Blue Print.jpeg" alt="Cyber Kisan Workflow" width="100%" >
-</p>
-
-
-## ⚡ Features
