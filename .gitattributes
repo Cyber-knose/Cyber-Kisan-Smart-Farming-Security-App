@@ -1,0 +1,12 @@
+# Force language detection
+index.html linguist
+style.css linguist
+script.js linguist
+
+# Override extensions
+*.html linguist-language=HTML
+*.css linguist-language=CSS
+*.js linguist-language=JavaScript
+
+# Exclude README from stats
+README.md linguist-documentation=true
